@@ -10,20 +10,20 @@ namespace System.Windows.Media.Extensions.Effects
 #if SILVERLIGHT 
     using UIPropertyMetadata = System.Windows.PropertyMetadata ;      
 #endif
-    public class EmbossedEffect : ShaderEffect
+    public class Embossed : ShaderEffect
     {
-        public static readonly DependencyProperty InputProperty = ShaderEffect.RegisterPixelShaderSamplerProperty("Input", typeof(EmbossedEffect), 0, SamplingMode.Bilinear);
-        public static readonly DependencyProperty AmountProperty = DependencyProperty.Register("Amount", typeof(double), typeof(EmbossedEffect), new UIPropertyMetadata(15.0, PixelShaderConstantCallback(0)));
-        public static readonly DependencyProperty WidthProperty = DependencyProperty.Register("Width", typeof(double), typeof(EmbossedEffect), new UIPropertyMetadata(0.0001, PixelShaderConstantCallback(1)));
+        public static readonly DependencyProperty InputProperty = ShaderEffect.RegisterPixelShaderSamplerProperty("Input", typeof(Embossed), 0, SamplingMode.Bilinear);
+        public static readonly DependencyProperty AmountProperty = DependencyProperty.Register("Amount", typeof(double), typeof(Embossed), new UIPropertyMetadata(15.0, PixelShaderConstantCallback(0)));
+        public static readonly DependencyProperty WidthProperty = DependencyProperty.Register("Width", typeof(double), typeof(Embossed), new UIPropertyMetadata(0.0001, PixelShaderConstantCallback(1)));
 
         private readonly static PixelShader pixelShader = new PixelShader();
 
-        static EmbossedEffect()
+        static Embossed()
         {
-            pixelShader = PixelShaderUtility.LoadPixelShader("Embossed/Embossed.ps");
+            pixelShader = PixelShaderUtility.LoadPixelShader<Embossed>();
         }
 
-        public EmbossedEffect()
+        public Embossed()
         {
             this.PixelShader = pixelShader;
 

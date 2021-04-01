@@ -7,21 +7,28 @@ using System.Windows.Media.Effects;
 
 namespace System.Windows.Media.Extensions.Effects
 {
-    public class InvertColorEffect : ShaderEffect
+    public class ToonShader : ShaderEffect
     {
-        public static readonly DependencyProperty InputProperty = ShaderEffect.RegisterPixelShaderSamplerProperty("Input", typeof(InvertColorEffect), 0);
+        public static readonly DependencyProperty InputProperty =
+            ShaderEffect.RegisterPixelShaderSamplerProperty("Input", typeof(ToonShader), 0);
 
-        private readonly static PixelShader pixelShader;
+        private static readonly PixelShader pixelShader;
 
-        static InvertColorEffect()
+        static ToonShader()
         {
-            pixelShader = PixelShaderUtility.LoadPixelShader("InvertColor/InvertColor.ps");
+            pixelShader = PixelShaderUtility.LoadPixelShader<ToonShader>();
+
+            // Just saying hardware only for now since our drop of sw doesn't have sin/cos in
+            // it, and thus we can't validate against that.
+#if !SILVERLIGHT 
+            // TODO: 
+            pixelShader.ShaderRenderMode = ShaderRenderMode.HardwareOnly;
+#endif 
         }
 
-        public InvertColorEffect()
+        public ToonShader()
         {
             this.PixelShader = pixelShader;
-
             UpdateShaderValue(InputProperty);
         }
 

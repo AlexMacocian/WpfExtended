@@ -10,21 +10,21 @@ namespace System.Windows.Media.Extensions.Effects
 #if SILVERLIGHT 
     using UIPropertyMetadata = System.Windows.PropertyMetadata ;      
 #endif
-    public class BrightExtractEffect : ShaderEffect
+    public class BrightExtract : ShaderEffect
     {
         public static readonly DependencyProperty InputProperty =
-            ShaderEffect.RegisterPixelShaderSamplerProperty("Input", typeof(BrightExtractEffect), 0);
+            ShaderEffect.RegisterPixelShaderSamplerProperty("Input", typeof(BrightExtract), 0);
         public static readonly DependencyProperty ThresholdProperty =
-            DependencyProperty.Register("Threshold", typeof(double), typeof(BrightExtractEffect), new UIPropertyMetadata(0.25, PixelShaderConstantCallback(0)));
+            DependencyProperty.Register("Threshold", typeof(double), typeof(BrightExtract), new UIPropertyMetadata(0.25, PixelShaderConstantCallback(0)));
 
         private readonly static PixelShader pixelShader = new PixelShader();
 
-        static BrightExtractEffect()
+        static BrightExtract()
         {
-            pixelShader = PixelShaderUtility.LoadPixelShader("BrightExtract/BrightExtract.ps");
+            pixelShader = PixelShaderUtility.LoadPixelShader<BrightExtract>();
         }
 
-        public BrightExtractEffect()
+        public BrightExtract()
         {
             this.PixelShader = pixelShader;
 

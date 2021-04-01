@@ -10,27 +10,27 @@ namespace System.Windows.Media.Extensions.Effects
 #if SILVERLIGHT 
     using UIPropertyMetadata = System.Windows.PropertyMetadata ;      
 #endif
-    public class BloomEffect : ShaderEffect
+    public class Bloom : ShaderEffect
     {
         public static readonly DependencyProperty InputProperty =
-            ShaderEffect.RegisterPixelShaderSamplerProperty("Input", typeof(BloomEffect), 0);
+            ShaderEffect.RegisterPixelShaderSamplerProperty("Input", typeof(Bloom), 0);
         public static readonly DependencyProperty BloomIntensityProperty =
-            DependencyProperty.Register("BloomIntensity", typeof(double), typeof(BloomEffect), new UIPropertyMetadata(1.0, PixelShaderConstantCallback(0)));
+            DependencyProperty.Register("BloomIntensity", typeof(double), typeof(Bloom), new UIPropertyMetadata(1.0, PixelShaderConstantCallback(0)));
         public static readonly DependencyProperty BaseIntensityProperty =
-            DependencyProperty.Register("BaseIntensity", typeof(double), typeof(BloomEffect), new UIPropertyMetadata(1.0, PixelShaderConstantCallback(1)));
+            DependencyProperty.Register("BaseIntensity", typeof(double), typeof(Bloom), new UIPropertyMetadata(1.0, PixelShaderConstantCallback(1)));
         public static readonly DependencyProperty BloomSaturationProperty =
-            DependencyProperty.Register("BloomSaturation", typeof(double), typeof(BloomEffect), new UIPropertyMetadata(1.0, PixelShaderConstantCallback(2)));
+            DependencyProperty.Register("BloomSaturation", typeof(double), typeof(Bloom), new UIPropertyMetadata(1.0, PixelShaderConstantCallback(2)));
         public static readonly DependencyProperty BaseSaturationProperty =
-            DependencyProperty.Register("BaseSaturation", typeof(double), typeof(BloomEffect), new UIPropertyMetadata(1.0, PixelShaderConstantCallback(3)));
+            DependencyProperty.Register("BaseSaturation", typeof(double), typeof(Bloom), new UIPropertyMetadata(1.0, PixelShaderConstantCallback(3)));
 
         private readonly static PixelShader pixelShader = new PixelShader();
 
-        static BloomEffect()
+        static Bloom()
         {
-            pixelShader = PixelShaderUtility.LoadPixelShader("Bloom/Bloom.ps");
+            pixelShader = PixelShaderUtility.LoadPixelShader<Bloom>();
         }
 
-        public BloomEffect()
+        public Bloom()
         {
             this.PixelShader = pixelShader;
 

@@ -10,21 +10,21 @@ namespace System.Windows.Media.Extensions.Effects
 #if SILVERLIGHT 
     using UIPropertyMetadata = System.Windows.PropertyMetadata ;      
 #endif
-    public class PinchEffect : ShaderEffect
+    public class Pinch : ShaderEffect
     {
-        public static readonly DependencyProperty InputProperty = ShaderEffect.RegisterPixelShaderSamplerProperty("Input", typeof(PinchEffect), 0);
-        public static readonly DependencyProperty CenterXProperty = DependencyProperty.Register("CenterX", typeof(double), typeof(PinchEffect), new UIPropertyMetadata(0.5, PixelShaderConstantCallback(0)));
-        public static readonly DependencyProperty CenterYProperty = DependencyProperty.Register("CenterY", typeof(double), typeof(PinchEffect), new UIPropertyMetadata(0.5, PixelShaderConstantCallback(1)));
-        public static readonly DependencyProperty RadiusProperty = DependencyProperty.Register("Radius", typeof(double), typeof(PinchEffect), new UIPropertyMetadata(0.25, PixelShaderConstantCallback(2)));
-        public static readonly DependencyProperty AmountProperty = DependencyProperty.Register("Amount", typeof(double), typeof(PinchEffect), new UIPropertyMetadata(0.0, PixelShaderConstantCallback(3)));
+        public static readonly DependencyProperty InputProperty = ShaderEffect.RegisterPixelShaderSamplerProperty("Input", typeof(Pinch), 0);
+        public static readonly DependencyProperty CenterXProperty = DependencyProperty.Register("CenterX", typeof(double), typeof(Pinch), new UIPropertyMetadata(0.5, PixelShaderConstantCallback(0)));
+        public static readonly DependencyProperty CenterYProperty = DependencyProperty.Register("CenterY", typeof(double), typeof(Pinch), new UIPropertyMetadata(0.5, PixelShaderConstantCallback(1)));
+        public static readonly DependencyProperty RadiusProperty = DependencyProperty.Register("Radius", typeof(double), typeof(Pinch), new UIPropertyMetadata(0.25, PixelShaderConstantCallback(2)));
+        public static readonly DependencyProperty AmountProperty = DependencyProperty.Register("Amount", typeof(double), typeof(Pinch), new UIPropertyMetadata(0.0, PixelShaderConstantCallback(3)));
 
         private readonly static PixelShader pixelShader = new PixelShader();
 
-        static PinchEffect()
+        static Pinch()
         {
-            pixelShader = PixelShaderUtility.LoadPixelShader("Pinch/Pinch.ps");
+            pixelShader = PixelShaderUtility.LoadPixelShader<Pinch>();
         }
-        public PinchEffect()
+        public Pinch()
         {
             this.PixelShader = pixelShader;
 

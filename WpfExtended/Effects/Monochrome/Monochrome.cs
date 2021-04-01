@@ -10,18 +10,18 @@ namespace System.Windows.Media.Extensions.Effects
 #if SILVERLIGHT
     using UIPropertyMetadata = System.Windows.PropertyMetadata ;      
 #endif
-    public class MonochromeEffect : ShaderEffect
+    public class Monochrome : ShaderEffect
     {
-        public static readonly DependencyProperty FilterColorProperty = DependencyProperty.Register("FilterColor", typeof(Color), typeof(MonochromeEffect), new UIPropertyMetadata(Colors.White, PixelShaderConstantCallback(0)));
-        public static readonly DependencyProperty InputProperty = ShaderEffect.RegisterPixelShaderSamplerProperty("Input", typeof(MonochromeEffect), 0);
+        public static readonly DependencyProperty FilterColorProperty = DependencyProperty.Register("FilterColor", typeof(Color), typeof(Monochrome), new UIPropertyMetadata(Colors.White, PixelShaderConstantCallback(0)));
+        public static readonly DependencyProperty InputProperty = ShaderEffect.RegisterPixelShaderSamplerProperty("Input", typeof(Monochrome), 0);
 
         private readonly static PixelShader pixelShader;
 
-        static MonochromeEffect()
+        static Monochrome()
         {
-            pixelShader = PixelShaderUtility.LoadPixelShader("MonoChrome/Monochrome.ps");
+            pixelShader = PixelShaderUtility.LoadPixelShader<Monochrome>();
         }
-        public MonochromeEffect()
+        public Monochrome()
         {
             this.PixelShader = pixelShader;
 

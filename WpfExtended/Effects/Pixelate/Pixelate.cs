@@ -10,20 +10,20 @@ namespace System.Windows.Media.Extensions.Effects
 #if SILVERLIGHT 
     using UIPropertyMetadata = System.Windows.PropertyMetadata ;      
 #endif
-    public class PixelateEffect : ShaderEffect
+    public class Pixelate : ShaderEffect
     {
-        public static readonly DependencyProperty InputProperty = ShaderEffect.RegisterPixelShaderSamplerProperty("Input", typeof(PixelateEffect), 0);
-        public static readonly DependencyProperty HorizontalPixelCountsProperty = DependencyProperty.Register("HorizontalPixelCounts", typeof(double), typeof(PixelateEffect), new UIPropertyMetadata(80.0, PixelShaderConstantCallback(0)));
-        public static readonly DependencyProperty VerticalPixelCountsProperty = DependencyProperty.Register("VerticalPixelCounts", typeof(double), typeof(PixelateEffect), new UIPropertyMetadata(80.0, PixelShaderConstantCallback(1)));
+        public static readonly DependencyProperty InputProperty = ShaderEffect.RegisterPixelShaderSamplerProperty("Input", typeof(Pixelate), 0);
+        public static readonly DependencyProperty HorizontalPixelCountsProperty = DependencyProperty.Register("HorizontalPixelCounts", typeof(double), typeof(Pixelate), new UIPropertyMetadata(80.0, PixelShaderConstantCallback(0)));
+        public static readonly DependencyProperty VerticalPixelCountsProperty = DependencyProperty.Register("VerticalPixelCounts", typeof(double), typeof(Pixelate), new UIPropertyMetadata(80.0, PixelShaderConstantCallback(1)));
 
         private readonly static PixelShader pixelShader = new PixelShader();
 
-        static PixelateEffect()
+        static Pixelate()
         {
-            pixelShader = PixelShaderUtility.LoadPixelShader("Pixelate/Pixelate.ps");
+            pixelShader = PixelShaderUtility.LoadPixelShader<Pixelate>();
         }
 
-        public PixelateEffect()
+        public Pixelate()
         {
             this.PixelShader = pixelShader;
 

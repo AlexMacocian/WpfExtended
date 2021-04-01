@@ -10,22 +10,22 @@ namespace System.Windows.Media.Extensions.Effects
 #if SILVERLIGHT
     using UIPropertyMetadata = System.Windows.PropertyMetadata ;      
 #endif
-    public class RippleEffect : ShaderEffect
+    public class Ripple : ShaderEffect
     {
-        public static readonly DependencyProperty CenterProperty = DependencyProperty.Register("Center", typeof(Point), typeof(RippleEffect), new UIPropertyMetadata(new Point(0.5, 0.5), PixelShaderConstantCallback(0)));
-        public static readonly DependencyProperty AmplitudeProperty = DependencyProperty.Register("Amplitude", typeof(double), typeof(RippleEffect), new UIPropertyMetadata(0.1, PixelShaderConstantCallback(1)));
-        public static readonly DependencyProperty FrequencyProperty = DependencyProperty.Register("Frequency", typeof(double), typeof(RippleEffect), new UIPropertyMetadata(50.0, PixelShaderConstantCallback(2)));
-        public static readonly DependencyProperty PhaseProperty = DependencyProperty.Register("Phase", typeof(double), typeof(RippleEffect), new UIPropertyMetadata(0.0, PixelShaderConstantCallback(3)));
-        public static readonly DependencyProperty InputProperty = ShaderEffect.RegisterPixelShaderSamplerProperty("Input", typeof(RippleEffect), 0);
+        public static readonly DependencyProperty CenterProperty = DependencyProperty.Register("Center", typeof(Point), typeof(Ripple), new UIPropertyMetadata(new Point(0.5, 0.5), PixelShaderConstantCallback(0)));
+        public static readonly DependencyProperty AmplitudeProperty = DependencyProperty.Register("Amplitude", typeof(double), typeof(Ripple), new UIPropertyMetadata(0.1, PixelShaderConstantCallback(1)));
+        public static readonly DependencyProperty FrequencyProperty = DependencyProperty.Register("Frequency", typeof(double), typeof(Ripple), new UIPropertyMetadata(50.0, PixelShaderConstantCallback(2)));
+        public static readonly DependencyProperty PhaseProperty = DependencyProperty.Register("Phase", typeof(double), typeof(Ripple), new UIPropertyMetadata(0.0, PixelShaderConstantCallback(3)));
+        public static readonly DependencyProperty InputProperty = ShaderEffect.RegisterPixelShaderSamplerProperty("Input", typeof(Ripple), 0);
 
         private static readonly PixelShader pixelShader;
 
-        static RippleEffect()
+        static Ripple()
         {
-            pixelShader = PixelShaderUtility.LoadPixelShader("Ripple/Ripple.ps");
+            pixelShader = PixelShaderUtility.LoadPixelShader<Ripple>();
         }
 
-        public RippleEffect()
+        public Ripple()
         {
             this.PixelShader = pixelShader;
 

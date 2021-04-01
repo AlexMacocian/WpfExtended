@@ -10,27 +10,27 @@ namespace System.Windows.Media.Extensions.Effects
 #if SILVERLIGHT 
     using UIPropertyMetadata = System.Windows.PropertyMetadata ;      
 #endif
-    public class ColorToneEffect : ShaderEffect
+    public class ColorTone : ShaderEffect
     {
         public static readonly DependencyProperty InputProperty =
-            ShaderEffect.RegisterPixelShaderSamplerProperty("Input", typeof(ColorToneEffect), 0);
+            ShaderEffect.RegisterPixelShaderSamplerProperty("Input", typeof(ColorTone), 0);
         public static readonly DependencyProperty DesaturationProperty =
-            DependencyProperty.Register("Desaturation", typeof(double), typeof(ColorToneEffect), new UIPropertyMetadata(0.5, PixelShaderConstantCallback(0)));
+            DependencyProperty.Register("Desaturation", typeof(double), typeof(ColorTone), new UIPropertyMetadata(0.5, PixelShaderConstantCallback(0)));
         public static readonly DependencyProperty TonedProperty =
-            DependencyProperty.Register("Toned", typeof(double), typeof(ColorToneEffect), new UIPropertyMetadata(1.0, PixelShaderConstantCallback(1)));
+            DependencyProperty.Register("Toned", typeof(double), typeof(ColorTone), new UIPropertyMetadata(1.0, PixelShaderConstantCallback(1)));
         public static readonly DependencyProperty LightColorProperty =
-            DependencyProperty.Register("LightColor", typeof(Color), typeof(ColorToneEffect), new UIPropertyMetadata(Color.FromArgb(255, 255, 229, 128), PixelShaderConstantCallback(2)));
+            DependencyProperty.Register("LightColor", typeof(Color), typeof(ColorTone), new UIPropertyMetadata(Color.FromArgb(255, 255, 229, 128), PixelShaderConstantCallback(2)));
         public static readonly DependencyProperty DarkColorProperty =
-            DependencyProperty.Register("DarkColor", typeof(Color), typeof(ColorToneEffect), new UIPropertyMetadata(Color.FromArgb(255, 51, 128, 0), PixelShaderConstantCallback(3)));
+            DependencyProperty.Register("DarkColor", typeof(Color), typeof(ColorTone), new UIPropertyMetadata(Color.FromArgb(255, 51, 128, 0), PixelShaderConstantCallback(3)));
 
         private readonly static PixelShader pixelShader = new PixelShader();
 
-        static ColorToneEffect()
+        static ColorTone()
         {
-            pixelShader = PixelShaderUtility.LoadPixelShader("ColorTone/ColorTone.ps");
+            pixelShader = PixelShaderUtility.LoadPixelShader<ColorTone>();
         }
 
-        public ColorToneEffect()
+        public ColorTone()
         {
             this.PixelShader = pixelShader;
 

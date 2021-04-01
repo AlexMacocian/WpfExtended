@@ -10,20 +10,20 @@ namespace System.Windows.Media.Extensions.Effects
 #if SILVERLIGHT 
     using UIPropertyMetadata = System.Windows.PropertyMetadata ;      
 #endif
-    public class SharpenEffect : ShaderEffect
+    public class Sharpen : ShaderEffect
     {
-        public static readonly DependencyProperty InputProperty = ShaderEffect.RegisterPixelShaderSamplerProperty("Input", typeof(SharpenEffect), 0);
-        public static readonly DependencyProperty AmountProperty = DependencyProperty.Register("Amount", typeof(double), typeof(SharpenEffect), new UIPropertyMetadata(15.0, PixelShaderConstantCallback(0)));
-        public static readonly DependencyProperty WidthProperty = DependencyProperty.Register("Width", typeof(double), typeof(SharpenEffect), new UIPropertyMetadata(0.0001, PixelShaderConstantCallback(1)));
+        public static readonly DependencyProperty InputProperty = ShaderEffect.RegisterPixelShaderSamplerProperty("Input", typeof(Sharpen), 0);
+        public static readonly DependencyProperty AmountProperty = DependencyProperty.Register("Amount", typeof(double), typeof(Sharpen), new UIPropertyMetadata(15.0, PixelShaderConstantCallback(0)));
+        public static readonly DependencyProperty WidthProperty = DependencyProperty.Register("Width", typeof(double), typeof(Sharpen), new UIPropertyMetadata(0.0001, PixelShaderConstantCallback(1)));
 
         private readonly static PixelShader pixelShader = new PixelShader();
 
-        static SharpenEffect()
+        static Sharpen()
         {
-            pixelShader = PixelShaderUtility.LoadPixelShader("Sharpen/Sharpen.ps");
+            pixelShader = PixelShaderUtility.LoadPixelShader<Sharpen>();
         }
 
-        public SharpenEffect()
+        public Sharpen()
         {
             this.PixelShader = pixelShader;
 

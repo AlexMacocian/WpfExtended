@@ -10,21 +10,21 @@ namespace System.Windows.Media.Extensions.Effects
 #if SILVERLIGHT 
     using UIPropertyMetadata = System.Windows.PropertyMetadata ;      
 #endif
-    public class GrowablePoissonDiskEffect : ShaderEffect
+    public class GrowablePoissonDisk : ShaderEffect
     {
-        public static readonly DependencyProperty InputProperty = ShaderEffect.RegisterPixelShaderSamplerProperty("Input", typeof(GrowablePoissonDiskEffect), 0);
-        public static readonly DependencyProperty RadiusProperty = DependencyProperty.Register("Radius", typeof(double), typeof(GrowablePoissonDiskEffect), new UIPropertyMetadata(0.5, PixelShaderConstantCallback(0)));
-        public static readonly DependencyProperty WidthProperty = DependencyProperty.Register("Width", typeof(double), typeof(GrowablePoissonDiskEffect), new UIPropertyMetadata(0.0, PixelShaderConstantCallback(1)));
-        public static readonly DependencyProperty HeightProperty = DependencyProperty.Register("Height", typeof(double), typeof(GrowablePoissonDiskEffect), new UIPropertyMetadata(0.0, PixelShaderConstantCallback(2)));
+        public static readonly DependencyProperty InputProperty = ShaderEffect.RegisterPixelShaderSamplerProperty("Input", typeof(GrowablePoissonDisk), 0);
+        public static readonly DependencyProperty RadiusProperty = DependencyProperty.Register("Radius", typeof(double), typeof(GrowablePoissonDisk), new UIPropertyMetadata(0.5, PixelShaderConstantCallback(0)));
+        public static readonly DependencyProperty WidthProperty = DependencyProperty.Register("Width", typeof(double), typeof(GrowablePoissonDisk), new UIPropertyMetadata(0.0, PixelShaderConstantCallback(1)));
+        public static readonly DependencyProperty HeightProperty = DependencyProperty.Register("Height", typeof(double), typeof(GrowablePoissonDisk), new UIPropertyMetadata(0.0, PixelShaderConstantCallback(2)));
 
         private readonly static PixelShader pixelShader = new PixelShader();
 
-        static GrowablePoissonDiskEffect()
+        static GrowablePoissonDisk()
         {
-            pixelShader = PixelShaderUtility.LoadPixelShader("GrowablePoissonDisk/GrowablePoissonDisk.ps");
+            pixelShader = PixelShaderUtility.LoadPixelShader<GrowablePoissonDisk>();
         }
 
-        public GrowablePoissonDiskEffect()
+        public GrowablePoissonDisk()
         {
             this.PixelShader = pixelShader;
 

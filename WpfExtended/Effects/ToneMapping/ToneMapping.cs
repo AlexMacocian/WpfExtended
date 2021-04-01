@@ -10,25 +10,25 @@ namespace System.Windows.Media.Extensions.Effects
 #if SILVERLIGHT 
     using UIPropertyMetadata = System.Windows.PropertyMetadata ;      
 #endif
-    public class ToneMappingEffect : ShaderEffect
+    public class ToneMapping : ShaderEffect
     {
-        public static readonly DependencyProperty InputProperty = ShaderEffect.RegisterPixelShaderSamplerProperty("Input", typeof(ToneMappingEffect), 0);
-        public static readonly DependencyProperty ExposureProperty = DependencyProperty.Register("Exposure", typeof(double), typeof(ToneMappingEffect), new UIPropertyMetadata(0.0, PixelShaderConstantCallback(0)));
-        public static readonly DependencyProperty DefogProperty = DependencyProperty.Register("Defog", typeof(double), typeof(ToneMappingEffect), new UIPropertyMetadata(0.0, PixelShaderConstantCallback(1)));
-        public static readonly DependencyProperty GammaProperty = DependencyProperty.Register("Gamma", typeof(double), typeof(ToneMappingEffect), new UIPropertyMetadata(0.454545, PixelShaderConstantCallback(2)));
-        public static readonly DependencyProperty FogColorProperty = DependencyProperty.Register("FogColor", typeof(Color), typeof(ToneMappingEffect), new UIPropertyMetadata(Colors.White, PixelShaderConstantCallback(3)));
-        public static readonly DependencyProperty VignetteRadiusProperty = DependencyProperty.Register("VignetteRadius", typeof(double), typeof(ToneMappingEffect), new UIPropertyMetadata(0.35, PixelShaderConstantCallback(4)));
-        public static readonly DependencyProperty VignetteCenterProperty = DependencyProperty.Register("VignetteCenter", typeof(Point), typeof(ToneMappingEffect), new UIPropertyMetadata( new Point(0.5, 0.5), PixelShaderConstantCallback(5)));
-        public static readonly DependencyProperty BlueShiftProperty = DependencyProperty.Register("BlueShift", typeof(double), typeof(ToneMappingEffect), new UIPropertyMetadata(1.0, PixelShaderConstantCallback(6)));
+        public static readonly DependencyProperty InputProperty = ShaderEffect.RegisterPixelShaderSamplerProperty("Input", typeof(ToneMapping), 0);
+        public static readonly DependencyProperty ExposureProperty = DependencyProperty.Register("Exposure", typeof(double), typeof(ToneMapping), new UIPropertyMetadata(0.0, PixelShaderConstantCallback(0)));
+        public static readonly DependencyProperty DefogProperty = DependencyProperty.Register("Defog", typeof(double), typeof(ToneMapping), new UIPropertyMetadata(0.0, PixelShaderConstantCallback(1)));
+        public static readonly DependencyProperty GammaProperty = DependencyProperty.Register("Gamma", typeof(double), typeof(ToneMapping), new UIPropertyMetadata(0.454545, PixelShaderConstantCallback(2)));
+        public static readonly DependencyProperty FogColorProperty = DependencyProperty.Register("FogColor", typeof(Color), typeof(ToneMapping), new UIPropertyMetadata(Colors.White, PixelShaderConstantCallback(3)));
+        public static readonly DependencyProperty VignetteRadiusProperty = DependencyProperty.Register("VignetteRadius", typeof(double), typeof(ToneMapping), new UIPropertyMetadata(0.35, PixelShaderConstantCallback(4)));
+        public static readonly DependencyProperty VignetteCenterProperty = DependencyProperty.Register("VignetteCenter", typeof(Point), typeof(ToneMapping), new UIPropertyMetadata( new Point(0.5, 0.5), PixelShaderConstantCallback(5)));
+        public static readonly DependencyProperty BlueShiftProperty = DependencyProperty.Register("BlueShift", typeof(double), typeof(ToneMapping), new UIPropertyMetadata(1.0, PixelShaderConstantCallback(6)));
 
         private readonly static PixelShader pixelShader;
 
-        static ToneMappingEffect()
+        static ToneMapping()
         {
-            pixelShader = PixelShaderUtility.LoadPixelShader("ToneMapping/ToneMapping.ps");
+            pixelShader = PixelShaderUtility.LoadPixelShader<ToneMapping>();
         }
 
-        public ToneMappingEffect()
+        public ToneMapping()
         {
             this.PixelShader = pixelShader;
 

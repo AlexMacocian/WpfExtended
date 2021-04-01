@@ -24,13 +24,13 @@ using System.Windows.Media.Effects;
 
 namespace System.Windows.Media.Extensions.Effects
 {
-    public class ZoomBlurEffect : ShaderEffect
+    public class ZoomBlur : ShaderEffect
     {
-        public static readonly DependencyProperty InputProperty = RegisterPixelShaderSamplerProperty(nameof(Input), typeof(ZoomBlurEffect), 0);
+        public static readonly DependencyProperty InputProperty = RegisterPixelShaderSamplerProperty(nameof(Input), typeof(ZoomBlur), 0);
         public static readonly DependencyProperty BlurCenterProperty =
-            DependencyProperty.Register(nameof(BlurCenter), typeof(Point), typeof(ZoomBlurEffect), new UIPropertyMetadata(new Point(0.5D, 0.5D), PixelShaderConstantCallback(0)));
+            DependencyProperty.Register(nameof(BlurCenter), typeof(Point), typeof(ZoomBlur), new UIPropertyMetadata(new Point(0.5D, 0.5D), PixelShaderConstantCallback(0)));
         public static readonly DependencyProperty BlurMagnitudeProperty =
-            DependencyProperty.Register(nameof(BlurMagnitude), typeof(double), typeof(ZoomBlurEffect), new UIPropertyMetadata(5D, PixelShaderConstantCallback(1)));
+            DependencyProperty.Register(nameof(BlurMagnitude), typeof(double), typeof(ZoomBlur), new UIPropertyMetadata(5D, PixelShaderConstantCallback(1)));
 
         public Brush Input
         {
@@ -48,9 +48,9 @@ namespace System.Windows.Media.Extensions.Effects
             set => SetValue(BlurMagnitudeProperty, value);
         }
 
-        public ZoomBlurEffect()
+        public ZoomBlur()
         {
-            PixelShader = PixelShaderUtility.LoadPixelShader("ZoomBlur/ZoomBlurEffect.ps");
+            PixelShader = PixelShaderUtility.LoadPixelShader<ZoomBlur>();
 
             UpdateShaderValue(InputProperty);
             UpdateShaderValue(BlurCenterProperty);

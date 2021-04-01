@@ -11,22 +11,22 @@ namespace System.Windows.Media.Extensions.Effects
     using UIPropertyMetadata = System.Windows.PropertyMetadata ;   
     using Vector =  System.Windows.Point ; 
 #endif
-    public class SwirlEffect : ShaderEffect
+    public class Swirl : ShaderEffect
     {
-        public static readonly DependencyProperty InputProperty = ShaderEffect.RegisterPixelShaderSamplerProperty("Input", typeof(SwirlEffect), 0);
-        public static readonly DependencyProperty CenterProperty = DependencyProperty.Register("Center", typeof(Point), typeof(SwirlEffect), new UIPropertyMetadata(new Point(0.5, 0.5), PixelShaderConstantCallback(0)));
-        public static readonly DependencyProperty SwirlStrengthProperty = DependencyProperty.Register("SwirlStrength", typeof(double), typeof(SwirlEffect), new UIPropertyMetadata(0.5, PixelShaderConstantCallback(1)));
-        public static readonly DependencyProperty AngleFrequencyProperty = DependencyProperty.Register("AngleFrequency", typeof(Vector), typeof(SwirlEffect), new UIPropertyMetadata(new Vector(1, 1), PixelShaderConstantCallback(2)));
+        public static readonly DependencyProperty InputProperty = ShaderEffect.RegisterPixelShaderSamplerProperty("Input", typeof(Swirl), 0);
+        public static readonly DependencyProperty CenterProperty = DependencyProperty.Register("Center", typeof(Point), typeof(Swirl), new UIPropertyMetadata(new Point(0.5, 0.5), PixelShaderConstantCallback(0)));
+        public static readonly DependencyProperty SwirlStrengthProperty = DependencyProperty.Register("SwirlStrength", typeof(double), typeof(Swirl), new UIPropertyMetadata(0.5, PixelShaderConstantCallback(1)));
+        public static readonly DependencyProperty AngleFrequencyProperty = DependencyProperty.Register("AngleFrequency", typeof(Vector), typeof(Swirl), new UIPropertyMetadata(new Vector(1, 1), PixelShaderConstantCallback(2)));
 
         private readonly static PixelShader pixelShader;
         private readonly SwirlGeneralTransform generalTransform;
 
-        static SwirlEffect()
+        static Swirl()
         {
-            pixelShader = PixelShaderUtility.LoadPixelShader("SwirlEffect/SwirlEffect.ps");
+            pixelShader = PixelShaderUtility.LoadPixelShader<Swirl>();
         }
 
-        public SwirlEffect()
+        public Swirl()
         {
             this.PixelShader = pixelShader;
 
@@ -68,10 +68,10 @@ namespace System.Windows.Media.Extensions.Effects
         }
         private class SwirlGeneralTransform : GeneralTransform
         {
-            private readonly SwirlEffect theEffect;
+            private readonly Swirl theEffect;
             private bool thisIsInverse;
             private SwirlGeneralTransform inverseTransform;
-            public SwirlGeneralTransform(SwirlEffect eff)
+            public SwirlGeneralTransform(Swirl eff)
             {
                 this.theEffect = eff;
             }

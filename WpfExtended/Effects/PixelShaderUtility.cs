@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using System;
+using System.IO;
 using System.Windows.Media.Effects;
 
 namespace System.Windows.Media.Extensions.Effects
@@ -37,15 +37,19 @@ namespace System.Windows.Media.Extensions.Effects
                 .Name;
         }
 
-        public static PixelShader LoadPixelShader(string shaderFile)
+        public static PixelShader LoadPixelShader<T>()
+            where T : ShaderEffect
         {
-            string uriString = $"pack://application:,,,/{AssemblyShortName};component/{shaderFile}";
-            PixelShader pixelShader = new PixelShader
-            {
-                UriSource = new Uri(uriString)
-            };
-
+            var pixelShaderName = typeof(T).Name;
+            var resourceName = $"{AssemblyShortName}.Effects.{pixelShaderName}.{pixelShaderName}.ps";
+            var pixelShader = new PixelShader();
+            pixelShader.SetStreamSource(GetShaderStream(resourceName));
             return pixelShader;
+        }
+
+        internal static Stream GetShaderStream(string name)
+        {
+            return typeof(PixelShaderUtility).Assembly.GetManifestResourceStream(name) ?? throw new InvalidOperationException($"Could not find shader resource for {name}");
         }
     }
 }

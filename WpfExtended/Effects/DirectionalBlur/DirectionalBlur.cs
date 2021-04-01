@@ -10,20 +10,20 @@ namespace System.Windows.Media.Extensions.Effects
 #if SILVERLIGHT 
     using UIPropertyMetadata = System.Windows.PropertyMetadata ;      
 #endif
-    public class DirectionalBlurEffect : ShaderEffect
+    public class DirectionalBlur : ShaderEffect
     {
-        public static readonly DependencyProperty InputProperty = ShaderEffect.RegisterPixelShaderSamplerProperty("Input", typeof(DirectionalBlurEffect), 0);
-        public static readonly DependencyProperty AngleProperty = DependencyProperty.Register("Angle", typeof(double), typeof(DirectionalBlurEffect), new UIPropertyMetadata(0.0, PixelShaderConstantCallback(0)));
-        public static readonly DependencyProperty BlurAmountProperty = DependencyProperty.Register("BlurAmount", typeof(double), typeof(DirectionalBlurEffect), new UIPropertyMetadata(0.0, PixelShaderConstantCallback(1)));
+        public static readonly DependencyProperty InputProperty = ShaderEffect.RegisterPixelShaderSamplerProperty("Input", typeof(DirectionalBlur), 0);
+        public static readonly DependencyProperty AngleProperty = DependencyProperty.Register("Angle", typeof(double), typeof(DirectionalBlur), new UIPropertyMetadata(0.0, PixelShaderConstantCallback(0)));
+        public static readonly DependencyProperty BlurAmountProperty = DependencyProperty.Register("BlurAmount", typeof(double), typeof(DirectionalBlur), new UIPropertyMetadata(0.0, PixelShaderConstantCallback(1)));
 
         private readonly static PixelShader pixelShader;
 
-        static DirectionalBlurEffect()
+        static DirectionalBlur()
         {
-            pixelShader = PixelShaderUtility.LoadPixelShader("DirectionalBlur/DirectionalBlur.ps");
+            pixelShader = PixelShaderUtility.LoadPixelShader<DirectionalBlur>();
         }
 
-        public DirectionalBlurEffect()
+        public DirectionalBlur()
         {
             this.PixelShader = pixelShader;
             UpdateShaderValue(InputProperty);

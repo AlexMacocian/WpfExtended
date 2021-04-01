@@ -24,9 +24,9 @@ using System.Windows.Media.Effects;
 
 namespace System.Windows.Media.Extensions.Effects
 {
-    public class NegativeEffect : ShaderEffect
+    public class Negative : ShaderEffect
     {
-        public static readonly DependencyProperty InputProperty = RegisterPixelShaderSamplerProperty(nameof(Input), typeof(NegativeEffect), 0);
+        public static readonly DependencyProperty InputProperty = RegisterPixelShaderSamplerProperty(nameof(Input), typeof(Negative), 0);
 
         public Brush Input
         {
@@ -34,9 +34,9 @@ namespace System.Windows.Media.Extensions.Effects
             set => SetValue(InputProperty, value);
         }
 
-        public NegativeEffect()
+        public Negative()
         {
-            PixelShader = PixelShaderUtility.LoadPixelShader("Negative/NegativeEffect.ps");
+            PixelShader = PixelShaderUtility.LoadPixelShader<Negative>();
             UpdateShaderValue(InputProperty);
         }
     }

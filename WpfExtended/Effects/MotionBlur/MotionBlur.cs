@@ -24,13 +24,13 @@ using System.Windows.Media.Effects;
 
 namespace System.Windows.Media.Extensions.Effects
 {
-    public class MotionBlurEffect : ShaderEffect
+    public class MotionBlur : ShaderEffect
     {
-        public static readonly DependencyProperty InputProperty = RegisterPixelShaderSamplerProperty(nameof(Input), typeof(MotionBlurEffect), 0);
+        public static readonly DependencyProperty InputProperty = RegisterPixelShaderSamplerProperty(nameof(Input), typeof(MotionBlur), 0);
         public static readonly DependencyProperty BlurAngleProperty =
-            DependencyProperty.Register(nameof(BlurAngle), typeof(double), typeof(MotionBlurEffect), new UIPropertyMetadata(0d, PixelShaderConstantCallback(0)));
+            DependencyProperty.Register(nameof(BlurAngle), typeof(double), typeof(MotionBlur), new UIPropertyMetadata(0d, PixelShaderConstantCallback(0)));
         public static readonly DependencyProperty BlurMagnitudeProperty =
-            DependencyProperty.Register(nameof(BlurMagnitude), typeof(double), typeof(MotionBlurEffect), new UIPropertyMetadata(10d, PixelShaderConstantCallback(1)));
+            DependencyProperty.Register(nameof(BlurMagnitude), typeof(double), typeof(MotionBlur), new UIPropertyMetadata(10d, PixelShaderConstantCallback(1)));
 
         public Brush Input
         {
@@ -48,9 +48,9 @@ namespace System.Windows.Media.Extensions.Effects
             set => SetValue(BlurMagnitudeProperty, value);
         }
 
-        public MotionBlurEffect()
+        public MotionBlur()
         {
-            PixelShader = PixelShaderUtility.LoadPixelShader("MotionBlur/MotionBlurEffect.ps");
+            PixelShader = PixelShaderUtility.LoadPixelShader<MotionBlur>();
 
             UpdateShaderValue(InputProperty);
             UpdateShaderValue(BlurAngleProperty);

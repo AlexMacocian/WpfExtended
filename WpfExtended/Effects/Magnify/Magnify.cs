@@ -11,22 +11,22 @@ namespace System.Windows.Media.Extensions.Effects
     using UIPropertyMetadata = System.Windows.PropertyMetadata ;   
     using Vector = System.Windows.Point ; 
 #endif
-    public class MagnifyEffect : ShaderEffect
+    public class Magnify : ShaderEffect
     {
-        public static readonly DependencyProperty RadiiProperty = DependencyProperty.Register("Radii", typeof(Size), typeof(MagnifyEffect), new UIPropertyMetadata(new Size(0.2, 0.2), PixelShaderConstantCallback(0)));
-        public static readonly DependencyProperty CenterProperty = DependencyProperty.Register("Center", typeof(Point), typeof(MagnifyEffect), new UIPropertyMetadata(new Point(0.25, 0.25), PixelShaderConstantCallback(1)));
-        public static readonly DependencyProperty ShrinkFactorProperty = DependencyProperty.Register("ShrinkFactor", typeof(double), typeof(MagnifyEffect), new UIPropertyMetadata(0.5, PixelShaderConstantCallback(2)));
-        public static readonly DependencyProperty InputProperty = ShaderEffect.RegisterPixelShaderSamplerProperty("Input", typeof(MagnifyEffect), 0);
+        public static readonly DependencyProperty RadiiProperty = DependencyProperty.Register("Radii", typeof(Size), typeof(Magnify), new UIPropertyMetadata(new Size(0.2, 0.2), PixelShaderConstantCallback(0)));
+        public static readonly DependencyProperty CenterProperty = DependencyProperty.Register("Center", typeof(Point), typeof(Magnify), new UIPropertyMetadata(new Point(0.25, 0.25), PixelShaderConstantCallback(1)));
+        public static readonly DependencyProperty ShrinkFactorProperty = DependencyProperty.Register("ShrinkFactor", typeof(double), typeof(Magnify), new UIPropertyMetadata(0.5, PixelShaderConstantCallback(2)));
+        public static readonly DependencyProperty InputProperty = ShaderEffect.RegisterPixelShaderSamplerProperty("Input", typeof(Magnify), 0);
 
         private readonly static PixelShader pixelShader;
         private readonly MagnifyGeneralTransform generalTransform;
 
-        static MagnifyEffect()
+        static Magnify()
         {
-            pixelShader = PixelShaderUtility.LoadPixelShader("Magnify/Magnify.ps");
+            pixelShader = PixelShaderUtility.LoadPixelShader<Magnify>();
         }
 
-        public MagnifyEffect()
+        public Magnify()
         {
             this.PixelShader = pixelShader;
 
@@ -70,10 +70,10 @@ namespace System.Windows.Media.Extensions.Effects
 
         private class MagnifyGeneralTransform : GeneralTransform
         {
-            private readonly MagnifyEffect effect;
+            private readonly Magnify effect;
             private bool thisIsInverse;
             private MagnifyGeneralTransform inverseTransform;
-            public MagnifyGeneralTransform(MagnifyEffect fx)
+            public MagnifyGeneralTransform(Magnify fx)
             {
                 this.effect = fx;
             }

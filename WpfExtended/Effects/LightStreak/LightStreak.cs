@@ -10,21 +10,21 @@ namespace System.Windows.Media.Extensions.Effects
 #if SILVERLIGHT 
     using UIPropertyMetadata = System.Windows.PropertyMetadata ;      
 #endif
-    public class LightStreakEffect : ShaderEffect
+    public class LightStreak : ShaderEffect
     {
-        public static readonly DependencyProperty InputProperty = ShaderEffect.RegisterPixelShaderSamplerProperty("Input", typeof(LightStreakEffect), 0);
-        public static readonly DependencyProperty BrightThresholdProperty = DependencyProperty.Register("BrightThreshold", typeof(double), typeof(LightStreakEffect), new UIPropertyMetadata(0.25, PixelShaderConstantCallback(0)));
-        public static readonly DependencyProperty ScaleProperty = DependencyProperty.Register("Scale", typeof(double), typeof(LightStreakEffect), new UIPropertyMetadata(0.75, PixelShaderConstantCallback(1)));
-        public static readonly DependencyProperty AttenuationProperty = DependencyProperty.Register("Attenuation", typeof(double), typeof(LightStreakEffect), new UIPropertyMetadata(1.0, PixelShaderConstantCallback(2)));
+        public static readonly DependencyProperty InputProperty = ShaderEffect.RegisterPixelShaderSamplerProperty("Input", typeof(LightStreak), 0);
+        public static readonly DependencyProperty BrightThresholdProperty = DependencyProperty.Register("BrightThreshold", typeof(double), typeof(LightStreak), new UIPropertyMetadata(0.25, PixelShaderConstantCallback(0)));
+        public static readonly DependencyProperty ScaleProperty = DependencyProperty.Register("Scale", typeof(double), typeof(LightStreak), new UIPropertyMetadata(0.75, PixelShaderConstantCallback(1)));
+        public static readonly DependencyProperty AttenuationProperty = DependencyProperty.Register("Attenuation", typeof(double), typeof(LightStreak), new UIPropertyMetadata(1.0, PixelShaderConstantCallback(2)));
 
         private readonly static PixelShader pixelShader = new PixelShader();
 
-        static LightStreakEffect()
+        static LightStreak()
         {
-            pixelShader = PixelShaderUtility.LoadPixelShader("LightStreak/LightStreak.ps");
+            pixelShader = PixelShaderUtility.LoadPixelShader<LightStreak>();
         }
 
-        public LightStreakEffect()
+        public LightStreak()
         {
             this.PixelShader = pixelShader;
 

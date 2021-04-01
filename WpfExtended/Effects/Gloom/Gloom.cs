@@ -10,22 +10,22 @@ namespace System.Windows.Media.Extensions.Effects
 #if SILVERLIGHT 
     using UIPropertyMetadata = System.Windows.PropertyMetadata ;      
 #endif
-    public class GloomEffect : ShaderEffect
+    public class Gloom : ShaderEffect
     {
-        public static readonly DependencyProperty InputProperty = ShaderEffect.RegisterPixelShaderSamplerProperty("Input", typeof(GloomEffect), 0);
-        public static readonly DependencyProperty GloomIntensityProperty = DependencyProperty.Register("GloomIntensity", typeof(double), typeof(GloomEffect), new UIPropertyMetadata(1.0, PixelShaderConstantCallback(0)));
-        public static readonly DependencyProperty BaseIntensityProperty = DependencyProperty.Register("BaseIntensity", typeof(double), typeof(GloomEffect), new UIPropertyMetadata(1.0, PixelShaderConstantCallback(1)));
-        public static readonly DependencyProperty GloomSaturationProperty = DependencyProperty.Register("GloomSaturation", typeof(double), typeof(GloomEffect), new UIPropertyMetadata(1.0, PixelShaderConstantCallback(2)));
-        public static readonly DependencyProperty BaseSaturationProperty = DependencyProperty.Register("BaseSaturation", typeof(double), typeof(GloomEffect), new UIPropertyMetadata(1.0, PixelShaderConstantCallback(3)));
+        public static readonly DependencyProperty InputProperty = ShaderEffect.RegisterPixelShaderSamplerProperty("Input", typeof(Gloom), 0);
+        public static readonly DependencyProperty GloomIntensityProperty = DependencyProperty.Register("GloomIntensity", typeof(double), typeof(Gloom), new UIPropertyMetadata(1.0, PixelShaderConstantCallback(0)));
+        public static readonly DependencyProperty BaseIntensityProperty = DependencyProperty.Register("BaseIntensity", typeof(double), typeof(Gloom), new UIPropertyMetadata(1.0, PixelShaderConstantCallback(1)));
+        public static readonly DependencyProperty GloomSaturationProperty = DependencyProperty.Register("GloomSaturation", typeof(double), typeof(Gloom), new UIPropertyMetadata(1.0, PixelShaderConstantCallback(2)));
+        public static readonly DependencyProperty BaseSaturationProperty = DependencyProperty.Register("BaseSaturation", typeof(double), typeof(Gloom), new UIPropertyMetadata(1.0, PixelShaderConstantCallback(3)));
 
         private readonly static PixelShader pixelShader = new PixelShader();
 
-        static GloomEffect()
+        static Gloom()
         {
-            pixelShader = PixelShaderUtility.LoadPixelShader("Gloom/Gloom.ps");
+            pixelShader = PixelShaderUtility.LoadPixelShader<Gloom>();
         }
 
-        public GloomEffect()
+        public Gloom()
         {
             this.PixelShader = pixelShader;
 

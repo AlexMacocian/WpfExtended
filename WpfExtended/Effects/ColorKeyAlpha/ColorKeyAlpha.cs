@@ -7,18 +7,18 @@ using System.Windows.Media.Effects;
 
 namespace System.Windows.Media.Extensions.Effects
 {
-    public class ColorKeyAlphaEffect : ShaderEffect
+    public class ColorKeyAlpha : ShaderEffect
     {
-        public static readonly DependencyProperty InputProperty = ShaderEffect.RegisterPixelShaderSamplerProperty("Input", typeof(ColorKeyAlphaEffect), 0);
+        public static readonly DependencyProperty InputProperty = ShaderEffect.RegisterPixelShaderSamplerProperty("Input", typeof(ColorKeyAlpha), 0);
 
         private readonly static PixelShader pixelShader;
 
-        static ColorKeyAlphaEffect()
+        static ColorKeyAlpha()
         {
-            pixelShader = PixelShaderUtility.LoadPixelShader("ColorKeyAlpha/ColorKeyAlpha.ps");
+            pixelShader = PixelShaderUtility.LoadPixelShader<ColorKeyAlpha>();
         }
 
-        public ColorKeyAlphaEffect()
+        public ColorKeyAlpha()
         {
             this.PixelShader = pixelShader;
 

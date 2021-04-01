@@ -10,20 +10,20 @@ namespace System.Windows.Media.Extensions.Effects
 #if SILVERLIGHT 
     using UIPropertyMetadata = System.Windows.PropertyMetadata ;      
 #endif
-    public class ContrastAdjustEffect : ShaderEffect
+    public class ContrastAdjust : ShaderEffect
     {
-        public static readonly DependencyProperty InputProperty = ShaderEffect.RegisterPixelShaderSamplerProperty("Input", typeof(ContrastAdjustEffect), 0);
-        public static readonly DependencyProperty BrightnessProperty = DependencyProperty.Register("Brightness", typeof(double), typeof(ContrastAdjustEffect), new UIPropertyMetadata(0.0, PixelShaderConstantCallback(0)));
-        public static readonly DependencyProperty ContrastProperty = DependencyProperty.Register("Contrast", typeof(double), typeof(ContrastAdjustEffect), new UIPropertyMetadata(1.0, PixelShaderConstantCallback(1)));
+        public static readonly DependencyProperty InputProperty = ShaderEffect.RegisterPixelShaderSamplerProperty("Input", typeof(ContrastAdjust), 0);
+        public static readonly DependencyProperty BrightnessProperty = DependencyProperty.Register("Brightness", typeof(double), typeof(ContrastAdjust), new UIPropertyMetadata(0.0, PixelShaderConstantCallback(0)));
+        public static readonly DependencyProperty ContrastProperty = DependencyProperty.Register("Contrast", typeof(double), typeof(ContrastAdjust), new UIPropertyMetadata(1.0, PixelShaderConstantCallback(1)));
 
         private readonly static PixelShader pixelShader = new PixelShader();
 
-        static ContrastAdjustEffect()
+        static ContrastAdjust()
         {
-            pixelShader = PixelShaderUtility.LoadPixelShader("ContrastAdjust/ContrastAdjust.ps");
+            pixelShader = PixelShaderUtility.LoadPixelShader<ContrastAdjust>();
         }
 
-        public ContrastAdjustEffect()
+        public ContrastAdjust()
         {
             this.PixelShader = pixelShader;
 

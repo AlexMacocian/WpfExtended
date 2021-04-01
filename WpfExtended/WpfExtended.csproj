@@ -13,10 +13,71 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Effects\BandedSwirl\BandedSwirl.ps" />
+    <None Remove="Effects\Bloom\Bloom.ps" />
+    <None Remove="Effects\BrightExtract\BrightExtract.ps" />
+    <None Remove="Effects\ColorKeyAlpha\ColorKeyAlpha.ps" />
+    <None Remove="Effects\ColorTone\ColorTone.ps" />
+    <None Remove="Effects\ContrastAdjust\ContrastAdjust.ps" />
+    <None Remove="Effects\DirectionalBlur\DirectionalBlur.ps" />
+    <None Remove="Effects\Embossed\Embossed.ps" />
+    <None Remove="Effects\Gloom\Gloom.ps" />
+    <None Remove="Effects\GrowablePoissonDisk\GrowablePoissonDisk.ps" />
+    <None Remove="Effects\InvertColor\InvertColor.ps" />
+    <None Remove="Effects\LightStreak\LightStreak.ps" />
+    <None Remove="Effects\Magnify\Magnify.ps" />
+    <None Remove="Effects\Monochrome\Monochrome.ps" />
+    <None Remove="Effects\MotionBlur\MotionBlur.ps" />
+    <None Remove="Effects\Negative\Negative.ps" />
+    <None Remove="Effects\Pinch\Pinch.ps" />
+    <None Remove="Effects\Pixelate\Pixelate.ps" />
+    <None Remove="Effects\Ripple\Ripple.ps" />
+    <None Remove="Effects\Sharpen\Sharpen.ps" />
+    <None Remove="Effects\SmoothMagnify\SmoothMagnify.ps" />
+    <None Remove="Effects\Swirl\Swirl.ps" />
+    <None Remove="Effects\ToneMapping\ToneMapping.ps" />
+    <None Remove="Effects\ToonShader\ToonShader.ps" />
+    <None Remove="Effects\ZoomBlur\ZoomBlur.ps" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Effects\BandedSwirl\BandedSwirl.ps" />
+    <EmbeddedResource Include="Effects\Bloom\Bloom.ps" />
+    <EmbeddedResource Include="Effects\BrightExtract\BrightExtract.ps" />
+    <EmbeddedResource Include="Effects\ColorKeyAlpha\ColorKeyAlpha.ps" />
+    <EmbeddedResource Include="Effects\ColorTone\ColorTone.ps" />
+    <EmbeddedResource Include="Effects\ContrastAdjust\ContrastAdjust.ps" />
+    <EmbeddedResource Include="Effects\DirectionalBlur\DirectionalBlur.ps" />
+    <EmbeddedResource Include="Effects\Embossed\Embossed.ps" />
+    <EmbeddedResource Include="Effects\Gloom\Gloom.ps" />
+    <EmbeddedResource Include="Effects\GrowablePoissonDisk\GrowablePoissonDisk.ps" />
+    <EmbeddedResource Include="Effects\InvertColor\InvertColor.ps" />
+    <EmbeddedResource Include="Effects\LightStreak\LightStreak.ps" />
+    <EmbeddedResource Include="Effects\Magnify\Magnify.ps" />
+    <EmbeddedResource Include="Effects\Monochrome\Monochrome.ps" />
+    <EmbeddedResource Include="Effects\MotionBlur\MotionBlur.ps" />
+    <EmbeddedResource Include="Effects\Negative\Negative.ps" />
+    <EmbeddedResource Include="Effects\Pinch\Pinch.ps" />
+    <EmbeddedResource Include="Effects\Pixelate\Pixelate.ps" />
+    <EmbeddedResource Include="Effects\Ripple\Ripple.ps" />
+    <EmbeddedResource Include="Effects\Sharpen\Sharpen.ps" />
+    <EmbeddedResource Include="Effects\SmoothMagnify\SmoothMagnify.ps" />
+    <EmbeddedResource Include="Effects\Swirl\Swirl.ps" />
+    <EmbeddedResource Include="Effects\ToneMapping\ToneMapping.ps" />
+    <EmbeddedResource Include="Effects\ToonShader\ToonShader.ps" />
+    <EmbeddedResource Include="Effects\ZoomBlur\ZoomBlur.ps" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="License.txt">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Slim" Version="1.2.1" />
+    <PackageReference Include="SystemExtensions.NetStandard" Version="1.1.1" />
   </ItemGroup>
   <Import Project="ShaderCompiler.target" />
 </Project>

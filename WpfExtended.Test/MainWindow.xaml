@@ -7,6 +7,8 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-
+        <ScrollViewer>
+            <WrapPanel x:Name="WrapPanel" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"></WrapPanel>
+        </ScrollViewer>
     </Grid>
 </Window>
