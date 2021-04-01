@@ -20,11 +20,9 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using System.Windows;
-using System.Windows.Media;
 using System.Windows.Media.Effects;
 
-namespace WpfExtended.Effects
+namespace System.Windows.Media.Extensions.Effects
 {
     public class MotionBlurEffect : ShaderEffect
     {

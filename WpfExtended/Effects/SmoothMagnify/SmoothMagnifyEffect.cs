@@ -3,11 +3,9 @@
 // See http://www.microsoft.com/resources/sharedsource/licensingbasics/sharedsourcelicenses.mspx.
 // All other rights reserved.
 
-using System.Windows;
-using System.Windows.Media;
 using System.Windows.Media.Effects;
 
-namespace WpfExtended.Effects
+namespace System.Windows.Media.Extensions.Effects
 {
 #if SILVERLIGHT
     using UIPropertyMetadata = System.Windows.PropertyMetadata ;      

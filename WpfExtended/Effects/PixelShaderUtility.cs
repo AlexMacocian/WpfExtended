@@ -23,7 +23,7 @@
 using System;
 using System.Windows.Media.Effects;
 
-namespace WpfExtended.Effects
+namespace System.Windows.Media.Extensions.Effects
 {
     internal static class PixelShaderUtility
     {

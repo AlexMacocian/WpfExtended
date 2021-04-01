@@ -9,6 +9,7 @@
     <Version>0.1</Version>
     <Description>Extension library for Windows Presentation Platform.</Description>
     <Authors>Alexandru Macocian</Authors>
+    <RepositoryUrl>https://github.com/AlexMacocian/WpfExtended</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
