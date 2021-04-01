@@ -15,6 +15,14 @@ namespace WpfExtended.Tests
             return Instance.Run();
         }
 
+        protected override void ApplicationClosing()
+        {
+        }
+
+        protected override void ApplicationStarting()
+        {
+        }
+
         protected override bool HandleException(Exception e)
         {
             return false;

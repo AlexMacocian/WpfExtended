@@ -19,6 +19,14 @@ namespace System.Windows.Extensions
         }
 
         /// <summary>
+        /// Called right before the window is shown.
+        /// </summary>
+        protected abstract void ApplicationStarting();
+        /// <summary>
+        /// Called right before the application is closing.
+        /// </summary>
+        protected abstract void ApplicationClosing();
+        /// <summary>
         /// Register services into the <see cref="IServiceProducer"/>.
         /// </summary>
         /// <param name="serviceProducer"></param>
@@ -34,12 +42,25 @@ namespace System.Windows.Extensions
         {
             this.SetupExceptionHandling();
             this.RegisterServices(this.ServiceManager);
+            this.SetupApplicationLifetime();
             this.LaunchWindow();
+        }
+
+        protected sealed override void OnExit(ExitEventArgs e)
+        {
+            base.OnExit(e);
+            this.ApplicationClosing();
+        }
+        protected sealed override void OnSessionEnding(SessionEndingCancelEventArgs e)
+        {
+            base.OnSessionEnding(e);
+            this.ApplicationClosing();
         }
 
         private void LaunchWindow()
         {
             var window = this.ServiceManager.GetService<T>();
+            this.ApplicationStarting();
             window.Show();
         }
         private void RegisterInternals()
@@ -69,6 +90,10 @@ namespace System.Windows.Extensions
                     e.SetObserved();
                 }
             };
+        }
+        private void SetupApplicationLifetime()
+        {
+            AppDomain.CurrentDomain.ProcessExit += (s, e) => this.ApplicationClosing();
         }
     }
 }
