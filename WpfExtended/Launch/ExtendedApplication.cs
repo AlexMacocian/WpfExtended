@@ -1,7 +1,6 @@
 ﻿using Slim;
 using System.Extensions;
 using System.Threading.Tasks;
-using System.Windows.Navigation;
 
 namespace System.Windows.Extensions
 {
