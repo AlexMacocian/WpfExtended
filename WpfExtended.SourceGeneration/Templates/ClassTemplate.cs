@@ -43,6 +43,11 @@ namespace System.Extensions.Templates
             this.Modifiers.AddRange(modifiers);
             return this;
         }
+        public ClassTemplate WithModifier(Modifier modifier)
+        {
+            this.Modifiers.Add(modifier);
+            return this;
+        }
         public ClassTemplate WithMethods(params MethodTemplate[] methodTemplates)
         {
             this.Methods.Clear();

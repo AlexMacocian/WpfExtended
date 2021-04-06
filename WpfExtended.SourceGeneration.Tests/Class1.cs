@@ -5,7 +5,7 @@ using System.Windows.Media.Effects;
 
 namespace WpfExtended.SourceGeneration.Tests
 {
-    public partial class Class1 : UserControl
+    internal partial class Class1 : UserControl
     {
         [GenerateDependencyProperty]
         public int someF;
@@ -13,6 +13,7 @@ namespace WpfExtended.SourceGeneration.Tests
         public string someValue;
         [GenerateDependencyProperty]
         public Effect effect;
+
 
 
         public void TestValues()

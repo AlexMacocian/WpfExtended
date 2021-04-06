@@ -102,14 +102,23 @@ namespace System.Extensions
                 .WithNamespace(
                     new NamespaceTemplate()
                         .WithNamespace(namespaceName))
-                .WithModifiers(Modifier.Public, Modifier.Partial)
                 .WithName(classSymbol.Name);
+            AssignModifiers(source, classSymbol);
             foreach (var fieldSymbol in fields)
             {
                 ProcessField(source, classSymbol, attributeSymbol, fieldSymbol);
             }
 
             return source.GenerateString();
+        }
+
+        private static void AssignModifiers(ClassTemplate source, INamedTypeSymbol classSymbol)
+        {
+            //Find class declaration syntax and parse modifiers.
+            if (classSymbol.DeclaringSyntaxReferences.Select(sr => sr.GetSyntax()).OfType<ClassDeclarationSyntax>().First() is ClassDeclarationSyntax classDeclarationSyntax)
+            {
+                source.WithModifiers(classDeclarationSyntax.Modifiers.Select(m => Modifier.Parse(m.ValueText)).ToArray());
+            }
         }
 
         private static void ProcessField(ClassTemplate source, INamedTypeSymbol classSymbol, INamedTypeSymbol attributeSymbol, IFieldSymbol fieldSymbol)
