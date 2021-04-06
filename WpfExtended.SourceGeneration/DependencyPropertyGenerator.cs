@@ -60,6 +60,7 @@ namespace System.Extensions
             var attributeSymbol = compilation.GetTypeByMetadataName($"{AttributeNamespace}.{AttributeName}");
             if (attributeSymbol is null)
             {
+                context.ReportDiagnostic(Diagnostics.MissingAttributeDiagnostic(AttributeName, AttributeNamespace));
                 return;
             }
 
@@ -79,16 +80,21 @@ namespace System.Extensions
 
             foreach (var group in fieldSymbols.GroupBy(f => f.ContainingType, SymbolEqualityComparer.IncludeNullability))
             {
-                var classSource = ProcessClass((INamedTypeSymbol)group.Key, attributeSymbol, group.ToList());
+                var classSource = ProcessClass((INamedTypeSymbol)group.Key, attributeSymbol, group.ToList(), context);
+                context.ReportDiagnostic(Diagnostics.GeneratedSymbolsForClassDiagnostic(group.Key.Name));
                 context.AddSource($"{group.Key.Name}.DependencyPropertyGenerator.g.cs", classSource);
             }
         }
 
-        private static string ProcessClass(INamedTypeSymbol classSymbol, INamedTypeSymbol attributeSymbol, List<IFieldSymbol> fields)
+        private static string ProcessClass(INamedTypeSymbol classSymbol, INamedTypeSymbol attributeSymbol, List<IFieldSymbol> fields, GeneratorExecutionContext generatorExecutionContext)
         {
             if (!classSymbol.ContainingSymbol.Equals(classSymbol.ContainingNamespace, SymbolEqualityComparer.Default))
             {
-                return null; //TODO: issue a diagnostic that it must be top level
+                var syntaxTree = classSymbol.DeclaringSyntaxReferences.First().SyntaxTree;
+                var textSpan = classSymbol.DeclaringSyntaxReferences.First().Span;
+                generatorExecutionContext.ReportDiagnostic(
+                    Diagnostics.ClassNotTopLevelDiagnostic(classSymbol.Name, classSymbol.ContainingSymbol.Name, syntaxTree, textSpan));
+                return null;
             }
 
             var namespaceName = classSymbol.ContainingNamespace.ToDisplayString();
@@ -127,11 +133,6 @@ namespace System.Extensions
             var fieldType = fieldSymbol.Type;
 
             string propertyName = GenerateName(fieldName);
-            if (propertyName.Length == 0 || propertyName == fieldName)
-            {
-                //TODO: issue a diagnostic that we can't process this field
-                return;
-            }
 
             var attributeData = fieldSymbol.GetAttributes().Single(ad => ad.AttributeClass.Equals(attributeSymbol, SymbolEqualityComparer.Default));
             var initialValueOpt = attributeData.NamedArguments.SingleOrDefault(kvp => kvp.Key == "InitialValue").Value;

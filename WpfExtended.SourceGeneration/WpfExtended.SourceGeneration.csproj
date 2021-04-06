@@ -7,7 +7,7 @@
     <Authors>Alexandru Macocian</Authors>
     <Description>Source generator library.</Description>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
-    <Version>0.1</Version>
+    <Version>0.1.1</Version>
     <LangVersion>latest</LangVersion>
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
   </PropertyGroup>
@@ -25,5 +25,10 @@
       <PackagePath></PackagePath>
     </None>
   </ItemGroup>
-
+  
+  <ItemGroup>
+    <!-- Package the generator in the analyzer directory of the nuget package -->
+    <None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+  </ItemGroup>
+  
 </Project>
