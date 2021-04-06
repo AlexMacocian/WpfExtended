@@ -1,5 +1,7 @@
-﻿using System.Windows.Controls;
+﻿using FluentAssertions;
+using System.Windows.Controls;
 using System.Windows.Extensions;
+using System.Windows.Media.Effects;
 
 namespace WpfExtended.SourceGeneration.Tests
 {
@@ -7,5 +9,17 @@ namespace WpfExtended.SourceGeneration.Tests
     {
         [GenerateDependencyProperty]
         public int someF;
+        [GenerateDependencyProperty(InitialValue = "This has a value")]
+        public string someValue;
+        [GenerateDependencyProperty]
+        public Effect effect;
+
+
+        public void TestValues()
+        {
+            this.SomeF.Should().Be(0);
+            this.SomeValue.Should().Be("This has a value");
+            this.Effect.Should().BeNull();
+        }
     }
 }
