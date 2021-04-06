@@ -11,7 +11,7 @@ namespace WpfExtended.Tests
 
         [STAThread]
         public static int Main()
-        {            
+        {
             return Instance.Run();
         }
 
