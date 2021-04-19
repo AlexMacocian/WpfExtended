@@ -45,7 +45,6 @@ namespace System.Windows.Extensions
             this.SetupApplicationLifetime();
             this.LaunchWindow();
         }
-
         protected sealed override void OnExit(ExitEventArgs e)
         {
             base.OnExit(e);

@@ -3,7 +3,7 @@
   <PropertyGroup>
     <ShaderDir>$(ProjectDir)</ShaderDir>
     <Fxc>$(SolutionDir)tools\fxc.exe</Fxc>
-    <FxcArgs>/O0 /T ps_2_0 /nologo /Fo</FxcArgs>
+    <FxcArgs>/O3 /T ps_3_0 /nologo /Fo</FxcArgs>
   </PropertyGroup>
 
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">

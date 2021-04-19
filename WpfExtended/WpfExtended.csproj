@@ -6,7 +6,8 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageLicenseFile>License.txt</PackageLicenseFile>
-    <Version>0.1.1</Version>
+    <Version>0.2.0</Version>
+    <LangVersion>latest</LangVersion>
     <Description>Extension library for Windows Presentation Platform.
 
 Credits:
@@ -28,6 +29,7 @@ http://www.java2s.com/Open-Source/CSharp_Free_Code/Windows_Presentation_Foundati
     <None Remove="Effects\Gloom\Gloom.ps" />
     <None Remove="Effects\GrowablePoissonDisk\GrowablePoissonDisk.ps" />
     <None Remove="Effects\InvertColor\InvertColor.ps" />
+    <None Remove="Effects\Kuwahara\Kuwahara.ps" />
     <None Remove="Effects\LightStreak\LightStreak.ps" />
     <None Remove="Effects\Magnify\Magnify.ps" />
     <None Remove="Effects\Monochrome\Monochrome.ps" />
@@ -56,6 +58,7 @@ http://www.java2s.com/Open-Source/CSharp_Free_Code/Windows_Presentation_Foundati
     <EmbeddedResource Include="Effects\Gloom\Gloom.ps" />
     <EmbeddedResource Include="Effects\GrowablePoissonDisk\GrowablePoissonDisk.ps" />
     <EmbeddedResource Include="Effects\InvertColor\InvertColor.ps" />
+    <EmbeddedResource Include="Effects\Kuwahara\Kuwahara.ps" />
     <EmbeddedResource Include="Effects\LightStreak\LightStreak.ps" />
     <EmbeddedResource Include="Effects\Magnify\Magnify.ps" />
     <EmbeddedResource Include="Effects\Monochrome\Monochrome.ps" />

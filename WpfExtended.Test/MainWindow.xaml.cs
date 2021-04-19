@@ -39,8 +39,8 @@ namespace WpfExtended.Test
                 var effect = Activator.CreateInstance(effectType).As<ShaderEffect>();
                 var image = new CaptionedImage()
                 {
-                    Width = 300,
-                    Height = 300,
+                    Width = 800,
+                    Height = 800,
                     ImageSource = this.ImageSource,
                     Caption = effect.GetType().Name,
                     ImageEffect = effect,
