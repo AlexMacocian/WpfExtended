@@ -14,8 +14,6 @@ namespace WpfExtended.SourceGeneration.Tests
         [GenerateDependencyProperty]
         public Effect effect;
 
-
-
         public void TestValues()
         {
             this.SomeF.Should().Be(0);

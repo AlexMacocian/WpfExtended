@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.Logging;
+using System;
 using System.Extensions;
 using System.IO;
 using System.Windows;
@@ -25,9 +26,16 @@ namespace WpfExtended.Test
             set => this.SetTypedValue(ImageSourceProperty, value);
         }
 
-        public MainWindow()
+        private readonly ILogger<MainWindow> scopedLogger;
+        private readonly ILogger logger;
+
+        public MainWindow(
+            ILogger<MainWindow> scopedLogger,
+            ILogger logger)
         {
-            InitializeComponent();
+            this.InitializeComponent();
+            this.scopedLogger = scopedLogger.ThrowIfNull(nameof(scopedLogger));
+            this.logger = logger.ThrowIfNull(nameof(logger));
             this.ImageSource = new BitmapImage(new Uri(Path.GetFullPath("Images/Test.jpg")));
             this.BuildEffectsView();
         }
@@ -37,6 +45,8 @@ namespace WpfExtended.Test
             foreach(var effectType in TypeCrawler.GetTypes<ShaderEffect>())
             {
                 var effect = Activator.CreateInstance(effectType).As<ShaderEffect>();
+                this.scopedLogger.LogInformation($"Creating effect {effectType.Name}");
+                this.logger.LogInformation($"Creating effect {effectType.Name}");
                 var image = new CaptionedImage()
                 {
                     Width = 800,

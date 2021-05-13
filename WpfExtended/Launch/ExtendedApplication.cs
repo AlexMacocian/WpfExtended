@@ -1,6 +1,9 @@
-﻿using Slim;
+﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Debug;
+using Slim;
 using System.Extensions;
 using System.Threading.Tasks;
+using System.Windows.Extensions.Logging;
 
 namespace System.Windows.Extensions
 {
@@ -12,10 +15,30 @@ namespace System.Windows.Extensions
         where T : Window
     {
         protected IServiceManager ServiceManager { get; } = new ServiceManager();
+        protected ILoggerFactory LoggerFactory { get; private set; }
 
         public ExtendedApplication()
         {
             this.RegisterInternals();
+        }
+
+        /// <summary>
+        /// Do some work on the <see cref="IServiceManager"/> before calling <see cref="RegisterServices(IServiceProducer)"/>.
+        /// </summary>
+        protected virtual void SetupServiceManager(IServiceManager serviceManager)
+        {
+            serviceManager.RegisterHttpFactory();
+        }
+        /// <summary>
+        /// Setup the logger factory used to create the loggers.
+        /// </summary>
+        /// <remarks>By default, this method creates a <see cref="ILoggerFactory"/> with only one <see cref="Microsoft.Extensions.Logging.Debug.DebugLoggerProvider"/>.</remarks>
+        /// <returns><see cref="ILoggerFactory"/> used to create loggers.</returns>
+        protected virtual ILoggerFactory SetupLoggerFactory()
+        {
+            var factory = new LoggerFactory();
+            factory.AddProvider(new DebugLoggerProvider());
+            return factory;
         }
 
         /// <summary>
@@ -41,6 +64,9 @@ namespace System.Windows.Extensions
         protected sealed override void OnStartup(StartupEventArgs e)
         {
             this.SetupExceptionHandling();
+            this.LoggerFactory = this.SetupLoggerFactory();
+            this.ServiceManager.RegisterSingleton<ILoggerFactory, ILoggerFactory>(_ => this.LoggerFactory);
+            this.SetupServiceManager(this.ServiceManager);
             this.RegisterServices(this.ServiceManager);
             this.SetupApplicationLifetime();
             this.LaunchWindow();
@@ -66,6 +92,7 @@ namespace System.Windows.Extensions
         {
             this.ServiceManager.RegisterServiceManager();
             this.ServiceManager.RegisterSingleton<T, T>();
+            this.ServiceManager.RegisterResolver(new LoggerResolver());
         }
         private void SetupExceptionHandling()
         {
