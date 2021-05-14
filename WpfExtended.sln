@@ -7,9 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WpfExtended", "WpfExtended\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WpfExtended.Tests", "WpfExtended.Test\WpfExtended.Tests.csproj", "{48D2B8E6-F906-40D8-952E-B7B567D76A9B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfExtended.SourceGeneration", "WpfExtended.SourceGeneration\WpfExtended.SourceGeneration.csproj", "{BB890187-DF49-4E58-AE41-09C40F541292}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WpfExtended.SourceGeneration", "WpfExtended.SourceGeneration\WpfExtended.SourceGeneration.csproj", "{BB890187-DF49-4E58-AE41-09C40F541292}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfExtended.SourceGeneration.Tests", "WpfExtended.SourceGeneration.Tests\WpfExtended.SourceGeneration.Tests.csproj", "{BDD41E4C-3F5D-4734-8BD2-62B444E4845D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WpfExtended.SourceGeneration.Tests", "WpfExtended.SourceGeneration.Tests\WpfExtended.SourceGeneration.Tests.csproj", "{BDD41E4C-3F5D-4734-8BD2-62B444E4845D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

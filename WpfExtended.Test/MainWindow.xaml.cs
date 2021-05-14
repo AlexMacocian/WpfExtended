@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using System;
 using System.Extensions;
+using System.Http;
 using System.IO;
 using System.Windows;
 using System.Windows.Extensions;
@@ -28,20 +29,25 @@ namespace WpfExtended.Test
 
         private readonly ILogger<MainWindow> scopedLogger;
         private readonly ILogger logger;
+        private readonly IHttpClient<MainWindow> httpClient;
 
         public MainWindow(
             ILogger<MainWindow> scopedLogger,
-            ILogger logger)
+            ILogger logger,
+            IHttpClient<MainWindow> httpClient)
         {
             this.InitializeComponent();
             this.scopedLogger = scopedLogger.ThrowIfNull(nameof(scopedLogger));
             this.logger = logger.ThrowIfNull(nameof(logger));
+            this.httpClient = httpClient.ThrowIfNull(nameof(httpClient));
             this.ImageSource = new BitmapImage(new Uri(Path.GetFullPath("Images/Test.jpg")));
             this.BuildEffectsView();
         }
 
-        private void BuildEffectsView()
+        private async void BuildEffectsView()
         {
+            await this.httpClient.GetAsync("https://google.com");
+
             foreach(var effectType in TypeCrawler.GetTypes<ShaderEffect>())
             {
                 var effect = Activator.CreateInstance(effectType).As<ShaderEffect>();

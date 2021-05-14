@@ -10,7 +10,9 @@ namespace System.Windows.Extensions
         {
             serviceManager.ThrowIfNull(nameof(serviceManager));
 
-            serviceManager.RegisterResolver(new HttpClientResolver());
+            serviceManager.RegisterResolver(
+                new HttpClientResolver()
+                    .WithLogEvents(true));
             return serviceManager;
         }
     }
