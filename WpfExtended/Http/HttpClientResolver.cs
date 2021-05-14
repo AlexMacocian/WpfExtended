@@ -3,6 +3,7 @@ using Slim.Resolvers;
 using System.Extensions;
 using System.Http;
 using System.Linq;
+using System.Net.Http;
 
 namespace System.Windows.Extensions.Http
 {
@@ -11,11 +12,19 @@ namespace System.Windows.Extensions.Http
         private static readonly Type clientType = typeof(HttpClient<>);
         private static readonly Type loggerType = typeof(ILogger<>);
 
-        public bool LogEvents { get; set; }
+        /// <summary>
+        /// Factory method. <see cref="Type"/> parameter of the factory is the scope of <see cref="IHttpClient{TScope}"/>.
+        /// </summary>
+        public Func<Slim.IServiceProvider, Type, HttpMessageHandler> HttpMessageHandlerFactory { get; set; }
 
-        public HttpClientResolver WithLogEvents(bool logEvents)
+        /// <summary>
+        /// Sets the <see cref="HttpMessageHandlerFactory"/>.
+        /// </summary>
+        /// <param name="factory">Factory method. <see cref="Type"/> parameter of the factory is the scope of <see cref="IHttpClient{TScope}"/>.</param>
+        /// <returns></returns>
+        public HttpClientResolver WithHttpMessageHandlerFactory(Func<Slim.IServiceProvider, Type, HttpMessageHandler> factory)
         {
-            this.LogEvents = logEvents;
+            this.HttpMessageHandlerFactory = factory;
             return this;
         }
 
@@ -32,23 +41,13 @@ namespace System.Windows.Extensions.Http
         public object Resolve(Slim.IServiceProvider serviceProvider, Type type)
         {
             var typedClientType = clientType.MakeGenericType(type.GetGenericArguments());
-            var httpClient = Activator.CreateInstance(typedClientType);
-            if (this.LogEvents is false)
-            {
-                return httpClient;
-            }
-
             var typedLoggerType = loggerType.MakeGenericType(type.GetGenericArguments());
             var logger = serviceProvider.GetService(typedLoggerType).As<ILogger>();
-            var eventInfo = httpClient.GetType().GetEvents().Where(ev => ev.Name == nameof(HttpClient<object>.EventEmitted)).First();
-            var handler = new EventHandler<HttpClientEventMessage>((sender, message) => LogHttpMessage(sender, message, logger));
-            eventInfo.AddMethod.Invoke(httpClient, new object[] { handler });
+            var handler = this.HttpMessageHandlerFactory?.Invoke(serviceProvider, type.GetGenericArguments().First());
+            var httpClient = handler is null ?
+                Activator.CreateInstance(typedClientType) :
+                Activator.CreateInstance(typedClientType, new object[] { handler });
             return httpClient;
-        }
-
-        private static void LogHttpMessage(object sender, HttpClientEventMessage httpClientEventMessage, ILogger logger)
-        {
-            logger.LogInformation($"{httpClientEventMessage.Method} - {httpClientEventMessage.Url}");
         }
     }
 }

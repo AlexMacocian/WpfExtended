@@ -1,5 +1,6 @@
 ﻿using Slim;
 using System.Extensions;
+using System.Net.Http;
 using System.Windows.Extensions.Http;
 
 namespace System.Windows.Extensions
@@ -10,9 +11,17 @@ namespace System.Windows.Extensions
         {
             serviceManager.ThrowIfNull(nameof(serviceManager));
 
+            serviceManager.RegisterResolver(new HttpClientResolver());
+            return serviceManager;
+        }
+
+        public static IServiceProducer RegisterHttpFactory(this IServiceManager serviceManager, Func<Slim.IServiceProvider, Type, HttpMessageHandler> handlerFactory)
+        {
+            serviceManager.ThrowIfNull(nameof(serviceManager));
+
             serviceManager.RegisterResolver(
                 new HttpClientResolver()
-                    .WithLogEvents(true));
+                .WithHttpMessageHandlerFactory(handlerFactory));
             return serviceManager;
         }
     }
