@@ -27,18 +27,8 @@ namespace System.Windows.Extensions
         /// </summary>
         protected virtual void SetupServiceManager(IServiceManager serviceManager)
         {
+            serviceManager.RegisterLoggerFactory();
             serviceManager.RegisterHttpFactory();
-        }
-        /// <summary>
-        /// Setup the logger factory used to create the loggers.
-        /// </summary>
-        /// <remarks>By default, this method creates a <see cref="ILoggerFactory"/> with only one <see cref="Microsoft.Extensions.Logging.Debug.DebugLoggerProvider"/>.</remarks>
-        /// <returns><see cref="ILoggerFactory"/> used to create loggers.</returns>
-        protected virtual ILoggerFactory SetupLoggerFactory()
-        {
-            var factory = new LoggerFactory();
-            factory.AddProvider(new DebugLoggerProvider());
-            return factory;
         }
 
         /// <summary>
@@ -64,8 +54,6 @@ namespace System.Windows.Extensions
         protected sealed override void OnStartup(StartupEventArgs e)
         {
             this.SetupExceptionHandling();
-            this.LoggerFactory = this.SetupLoggerFactory();
-            this.ServiceManager.RegisterSingleton<ILoggerFactory, ILoggerFactory>(_ => this.LoggerFactory);
             this.SetupServiceManager(this.ServiceManager);
             this.RegisterServices(this.ServiceManager);
             this.SetupApplicationLifetime();

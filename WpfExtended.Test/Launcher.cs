@@ -2,7 +2,6 @@
 using Slim;
 using System;
 using System.Extensions;
-using System.Http;
 using System.Net.Http;
 using System.Windows.Extensions;
 using System.Windows.Extensions.Http;
@@ -23,6 +22,7 @@ namespace WpfExtended.Tests
 
         protected override void SetupServiceManager(IServiceManager serviceManager)
         {
+            serviceManager.RegisterLoggerFactory();
             serviceManager.RegisterResolver(
                 new HttpClientResolver()
                 .WithHttpMessageHandlerFactory((sp, category) =>

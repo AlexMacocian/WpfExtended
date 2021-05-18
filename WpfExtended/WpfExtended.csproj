@@ -6,7 +6,7 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageLicenseFile>License.txt</PackageLicenseFile>
-    <Version>0.3.2</Version>
+    <Version>0.3.3</Version>
     <LangVersion>latest</LangVersion>
     <Description>Extension library for Windows Presentation Platform.
 
