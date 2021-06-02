@@ -2,7 +2,7 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <ShaderDir>$(ProjectDir)</ShaderDir>
-    <Fxc>$(SolutionDir)tools\fxc.exe</Fxc>
+    <Fxc>$(SolutionDir)\tools\fxc.exe</Fxc>
     <FxcArgs>/O3 /T ps_3_0 /nologo /Fo</FxcArgs>
   </PropertyGroup>
 
