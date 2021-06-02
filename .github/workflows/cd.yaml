@@ -4,9 +4,6 @@ on:
   push:
     branches:
       - master
-  pull_request:
-    branches:
-      - master
       
 jobs:
 
@@ -47,7 +44,7 @@ jobs:
     - name: Build WpfExtended project
       run: dotnet build WpfExtended -c $env:Configuration -p:SolutionDir=$env:GITHUB_WORKSPACE
 
-    - name: Push nuget package
+    - name: Push WpfExtended Nuget package
       uses: brandedoutcast/publish-nuget@v2.5.5
       with:
          PROJECT_FILE_PATH: WpfExtended\WpfExtended.csproj
@@ -56,7 +53,7 @@ jobs:
     - name: Build WpfExtended.SourceGeneration project
       run: dotnet build WpfExtended.SourceGeneration -c $env:Configuration
 
-    - name: Push nuget package
+    - name: Push WpfExtended.SourceGeneration Nuget package
       uses: brandedoutcast/publish-nuget@v2.5.5
       with:
          PROJECT_FILE_PATH: WpfExtended.SourceGeneration\WpfExtended.SourceGeneration.csproj
