@@ -45,7 +45,7 @@ jobs:
         RuntimeIdentifier: win-${{ matrix.targetplatform }}
 
     - name: Build WpfExtended project
-      run: dotnet build WpfExtended -c $env:Configuration /p:SolutionDir=""
+      run: dotnet build WpfExtended -c $env:Configuration -p:SolutionDir=$env.GITHUB_WORKSPACE
 
     - name: Push nuget package
       uses: brandedoutcast/publish-nuget@v2.5.5
