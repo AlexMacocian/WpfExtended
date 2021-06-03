@@ -22,7 +22,7 @@ namespace WpfExtended.Tests
 
         protected override void SetupServiceManager(IServiceManager serviceManager)
         {
-            serviceManager.RegisterLoggerFactory();
+            serviceManager.RegisterDebugLoggerFactory();
             serviceManager.RegisterResolver(
                 new HttpClientResolver()
                 .WithHttpMessageHandlerFactory((sp, category) =>

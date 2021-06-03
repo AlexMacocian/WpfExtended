@@ -27,7 +27,7 @@ namespace System.Windows.Extensions
         /// </summary>
         protected virtual void SetupServiceManager(IServiceManager serviceManager)
         {
-            serviceManager.RegisterLoggerFactory();
+            serviceManager.RegisterDebugLoggerFactory();
             serviceManager.RegisterHttpFactory();
         }
 
