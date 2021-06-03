@@ -15,7 +15,7 @@ namespace System.Windows.Extensions
         /// <typeparam name="TLogsWriter">Implementation of <see cref="ILogsWriter"/>.</typeparam>
         /// <param name="serviceManager"><see cref="ServiceManager"/>.</param>
         /// <returns>Provided <see cref="ServiceManager"/>.</returns>
-        public static IServiceManager RegisterLogWriter<TLogsWriter>(this IServiceManager serviceManager)
+        public static IServiceProducer RegisterLogWriter<TLogsWriter>(this IServiceProducer serviceManager)
             where TLogsWriter : ILogsWriter
         {
             serviceManager.RegisterSingleton<ILogsWriter, TLogsWriter>();
@@ -36,7 +36,7 @@ namespace System.Windows.Extensions
         /// <typeparam name="TLogsWriter">Implementation of <see cref="ILogsWriter"/>.</typeparam>
         /// <param name="serviceManager"><see cref="ServiceManager"/>.</param>
         /// <returns>Provided <see cref="ServiceManager"/>.</returns>
-        public static IServiceManager RegisterLogWriter<TILogsWriter, TLogsWriter>(this IServiceManager serviceManager)
+        public static IServiceProducer RegisterLogWriter<TILogsWriter, TLogsWriter>(this IServiceProducer serviceManager)
             where TLogsWriter : TILogsWriter
             where TILogsWriter : class, ILogsWriter
         {
