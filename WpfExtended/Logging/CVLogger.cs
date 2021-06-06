@@ -8,12 +8,12 @@ namespace WpfExtended.Logging
     public sealed class CVLogger : ILogger
     {
         private readonly string category;
-        private readonly CVLoggerProvider debugLoggerProvider;
+        private readonly CVLoggerProvider cvLoggerProvider;
 
         public CVLogger(string category, CVLoggerProvider debugLoggerProvider)
         {
             this.category = category;
-            this.debugLoggerProvider = debugLoggerProvider.ThrowIfNull(nameof(debugLoggerProvider));
+            this.cvLoggerProvider = debugLoggerProvider.ThrowIfNull(nameof(debugLoggerProvider));
         }
 
         public IDisposable BeginScope<TState>(TState state)
@@ -32,6 +32,7 @@ namespace WpfExtended.Logging
 
             var log = new Log
             {
+                Exception = exception,
                 LogLevel = logLevel,
                 EventId = eventId.Name,
                 Message = message,
@@ -39,7 +40,7 @@ namespace WpfExtended.Logging
                 LogTime = DateTime.Now
             };
 
-            this.debugLoggerProvider.LogEntry(log);
+            this.cvLoggerProvider.LogEntry(log);
         }
     }
 }

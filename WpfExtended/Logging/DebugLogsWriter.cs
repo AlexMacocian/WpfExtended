@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using WpfExtended.Models;
 
 namespace WpfExtended.Logging
@@ -7,7 +8,7 @@ namespace WpfExtended.Logging
     {
         public void WriteLog(Log log)
         {
-            Debug.WriteLine($"{log.LogTime} - {log.Category} - {log.EventId} - {log.CorrelationVector} - {log.LogLevel} - {log.Message}");
+            Debug.WriteLine($"{log.LogTime} - {log.Category} - {log.EventId} - {log.CorrelationVector} - {log.LogLevel} - {log.Message}{Environment.NewLine}{log.Exception}");
         }
     }
 }

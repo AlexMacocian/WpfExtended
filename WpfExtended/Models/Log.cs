@@ -3,8 +3,9 @@ using System;
 
 namespace WpfExtended.Models
 {
-    public sealed class Log
+    public sealed record Log
     {
+        public Exception Exception { get; set; }
         public DateTime LogTime { get; set; }
         public string Category { get; set; }
         public string EventId { get; set; }
