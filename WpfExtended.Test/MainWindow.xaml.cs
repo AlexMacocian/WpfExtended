@@ -41,6 +41,7 @@ namespace WpfExtended.Test
             this.logger = logger.ThrowIfNull(nameof(logger));
             this.httpClient = httpClient.ThrowIfNull(nameof(httpClient));
             this.ImageSource = new BitmapImage(new Uri(Path.GetFullPath("Images/Test.jpg")));
+            this.logger.LogCritical(new Exception("Some exception message"), "Some exception is logged");
             this.BuildEffectsView();
         }
 
