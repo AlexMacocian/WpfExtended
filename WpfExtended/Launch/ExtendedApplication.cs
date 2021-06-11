@@ -4,6 +4,7 @@ using Slim;
 using System.Extensions;
 using System.Threading.Tasks;
 using System.Windows.Extensions.Logging;
+using System.Windows.Extensions.Services;
 
 namespace System.Windows.Extensions
 {
@@ -62,6 +63,11 @@ namespace System.Windows.Extensions
         protected sealed override void OnExit(ExitEventArgs e)
         {
             base.OnExit(e);
+            foreach (var service in this.ServiceManager.GetServicesOfType<IApplicationLifetimeService>())
+            {
+                service.OnClosing();
+            }
+
             this.ApplicationClosing();
         }
         protected sealed override void OnSessionEnding(SessionEndingCancelEventArgs e)
@@ -74,6 +80,11 @@ namespace System.Windows.Extensions
         {
             var window = this.ServiceManager.GetService<T>();
             this.ApplicationStarting();
+            foreach(var service in this.ServiceManager.GetServicesOfType<IApplicationLifetimeService>())
+            {
+                service.OnStartup();
+            }
+
             window.Show();
         }
         private void RegisterInternals()

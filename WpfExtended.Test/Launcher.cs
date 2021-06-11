@@ -7,6 +7,7 @@ using System.Windows.Extensions;
 using System.Windows.Extensions.Http;
 using WpfExtended.Test;
 using WpfExtended.Tests.Http;
+using WpfExtended.Tests.Services;
 
 namespace WpfExtended.Tests
 {
@@ -31,6 +32,7 @@ namespace WpfExtended.Tests
                     var logger = sp.GetService(loggerType).As<ILogger>();
                     return new HttpMessageLogger(logger, new HttpClientHandler());
                 }));
+            serviceManager.RegisterOptionsManager();
         }
 
         protected override void ApplicationClosing()
@@ -48,6 +50,7 @@ namespace WpfExtended.Tests
 
         protected override void RegisterServices(IServiceProducer serviceProducer)
         {
+            serviceProducer.RegisterSingleton<IDummyService, DummyService>();
         }
     }
 }
