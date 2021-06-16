@@ -21,7 +21,7 @@ jobs:
     env:
       Solution_Path: WpfExtended.sln
       Actions_Allow_Unsecure_Commands: true
-      Test_Project_Path: WpfExtended.Tests\WpfExtended.Tests.csproj
+      Test_Project_Path: WpfExtended.Test\WpfExtended.Tests.csproj
 
     steps:
     - name: Checkout
