@@ -37,12 +37,6 @@ jobs:
     - name: Setup MSBuild.exe
       uses: microsoft/setup-msbuild@v1.0.1
 
-    - name: Build WpfExtended.Tests project
-      run: dotnet build $env:Test_Project_Path -c $env:Configuration -p:SolutionDir=$env:GITHUB_WORKSPACE
-
-    - name: Execute Unit Tests
-      run: dotnet test $env:Test_Project_Path -c $env:Configuration -p:SolutionDir=$env:GITHUB_WORKSPACE
-
     - name: Restore Project
       run: msbuild $env:Solution_Path /t:Restore /p:Configuration=$env:Configuration /p:RuntimeIdentifier=$env:RuntimeIdentifier
       env:
