@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Http.Logging;
+using Microsoft.Extensions.Logging;
 using Slim;
 using System;
 using System.Extensions;
@@ -15,22 +16,17 @@ namespace WpfExtended.Tests
     {
         private static Launcher Instance { get; } = new Launcher();
 
-        [STAThread]
-        public static int Main()
-        {
-            return Instance.Run();
-        }
-
         protected override void SetupServiceManager(IServiceManager serviceManager)
         {
             serviceManager.RegisterDebugLoggerFactory();
             serviceManager.RegisterResolver(
                 new HttpClientResolver()
-                .WithHttpMessageHandlerFactory((sp, category) =>
+                .WithHttpMessageHandlerFactory((serviceProvider, categoryType) =>
                 {
-                    var loggerType = typeof(ILogger<>).MakeGenericType(category);
-                    var logger = sp.GetService(loggerType).As<ILogger>();
-                    return new HttpMessageLogger(logger, new HttpClientHandler());
+                    var loggerType = typeof(ILogger<>).MakeGenericType(categoryType);
+                    var logger = serviceProvider.GetService(loggerType).As<ILogger>();
+                    var handler = new LoggingHttpMessageHandler(logger) { InnerHandler = new HttpClientHandler() };
+                    return handler;
                 }));
             serviceManager.RegisterOptionsManager();
         }

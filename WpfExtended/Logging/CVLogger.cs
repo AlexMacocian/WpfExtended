@@ -8,12 +8,12 @@ namespace WpfExtended.Logging
     public sealed class CVLogger : ILogger
     {
         private readonly string category;
-        private readonly CVLoggerProvider cvLoggerProvider;
+        private readonly ICVLoggerProvider cvLoggerProvider;
 
-        public CVLogger(string category, CVLoggerProvider debugLoggerProvider)
+        public CVLogger(string category, ICVLoggerProvider cvLoggerProvider)
         {
             this.category = category;
-            this.cvLoggerProvider = debugLoggerProvider.ThrowIfNull(nameof(debugLoggerProvider));
+            this.cvLoggerProvider = cvLoggerProvider.ThrowIfNull(nameof(cvLoggerProvider));
         }
 
         public IDisposable BeginScope<TState>(TState state)

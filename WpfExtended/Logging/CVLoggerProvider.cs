@@ -5,7 +5,7 @@ using WpfExtended.Models;
 
 namespace WpfExtended.Logging
 {
-    public sealed class CVLoggerProvider : ILoggerProvider
+    public sealed class CVLoggerProvider : ICVLoggerProvider
     {
         private readonly ILogsWriter logsManager;
         private CorrelationVector correlationVector;
