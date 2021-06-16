@@ -23,9 +23,13 @@ namespace System.Windows.Extensions.Logging
             {
                 return ResolveScopedLogger(serviceProvider, type);
             }
-            else
+            else if (type == typeof(ILogger))
             {
                 return ResolveLogger(serviceProvider, type);
+            }
+            else
+            {
+                throw new InvalidOperationException($"{nameof(LoggerResolver)} cannot resolve an object of type {type.Name}");
             }
         }
 
