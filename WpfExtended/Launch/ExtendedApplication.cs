@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Debug;
 using Slim;
 using System.Extensions;
 using System.Threading.Tasks;
