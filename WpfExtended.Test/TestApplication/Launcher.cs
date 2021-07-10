@@ -3,11 +3,10 @@ using Microsoft.Extensions.Logging;
 using Slim;
 using System;
 using System.Extensions;
+using System.Http;
 using System.Net.Http;
 using System.Windows.Extensions;
-using System.Windows.Extensions.Http;
 using WpfExtended.Test;
-using WpfExtended.Tests.Http;
 using WpfExtended.Tests.Services;
 
 namespace WpfExtended.Tests

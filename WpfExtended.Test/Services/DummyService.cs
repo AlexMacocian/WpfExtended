@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using System.Configuration;
 using System.Extensions;
-using System.Windows.Extensions;
-using WpfExtended.Tests.Configuration;
+using SystemExtensions.DependencyInjection.Tests.Configuration;
 
 namespace WpfExtended.Tests.Services
 {
