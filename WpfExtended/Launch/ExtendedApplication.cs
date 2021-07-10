@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
 using Slim;
 using System.Extensions;
+using System.Logging;
 using System.Threading.Tasks;
-using System.Windows.Extensions.Logging;
 using System.Windows.Extensions.Services;
 
 namespace System.Windows.Extensions
