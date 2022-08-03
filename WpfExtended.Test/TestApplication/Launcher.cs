@@ -15,6 +15,12 @@ namespace WpfExtended.Tests
     {
         private static Launcher Instance { get; } = new Launcher();
 
+        [STAThread]
+        public static void Main()
+        {
+            Instance.Run();
+        }
+
         protected override void SetupServiceManager(IServiceManager serviceManager)
         {
             serviceManager.RegisterDebugLoggerFactory();
