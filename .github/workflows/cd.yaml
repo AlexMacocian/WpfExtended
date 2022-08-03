@@ -31,7 +31,7 @@ jobs:
     - name: Install .NET Core
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: '5.0.202'
+        dotnet-version: '6.x'
 
     - name: Setup MSBuild.exe
       uses: microsoft/setup-msbuild@v1.0.1
@@ -44,17 +44,14 @@ jobs:
     - name: Build WpfExtended project
       run: dotnet build WpfExtended -c $env:Configuration -p:SolutionDir=$env:GITHUB_WORKSPACE
 
-    - name: Push WpfExtended Nuget package
-      uses: brandedoutcast/publish-nuget@v2.5.5
-      with:
-         PROJECT_FILE_PATH: WpfExtended\WpfExtended.csproj
-         NUGET_KEY: ${{secrets.NUGET_API_KEY}}
+    - name: Package WpfExtended
+      run: dotnet pack -c Release -o . WpfExtended\WpfExtended.csproj
 
     - name: Build WpfExtended.SourceGeneration project
       run: dotnet build WpfExtended.SourceGeneration -c $env:Configuration
 
-    - name: Push WpfExtended.SourceGeneration Nuget package
-      uses: brandedoutcast/publish-nuget@v2.5.5
-      with:
-         PROJECT_FILE_PATH: WpfExtended.SourceGeneration\WpfExtended.SourceGeneration.csproj
-         NUGET_KEY: ${{secrets.NUGET_API_KEY}}
+    - name: Package WpfExtended.SourceGeneration
+      run: dotnet pack -c Release -o . WpfExtended.SourceGeneration\WpfExtended.SourceGeneration.csproj
+
+    - name: Publish
+      run: dotnet nuget push *.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
