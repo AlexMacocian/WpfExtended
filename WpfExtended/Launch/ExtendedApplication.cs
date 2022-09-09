@@ -1,5 +1,7 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Slim;
+using Slim.Integration.ServiceCollection;
 using System.Extensions;
 using System.Logging;
 using System.Threading.Tasks;
@@ -14,21 +16,28 @@ namespace System.Windows.Extensions
     public abstract class ExtendedApplication<T> : Application
         where T : Window
     {
-        protected IServiceManager ServiceManager { get; } = new ServiceManager();
-        protected ILoggerFactory LoggerFactory { get; private set; }
+        private readonly ServiceCollection services = new();
+
+        protected IServiceProvider ServiceProvider { get; private set; }
 
         public ExtendedApplication()
         {
-            this.RegisterInternals();
         }
 
         /// <summary>
-        /// Do some work on the <see cref="IServiceManager"/> before calling <see cref="RegisterServices(IServiceProducer)"/>.
+        /// Create a new <see cref="IServiceProvider"/>.
         /// </summary>
-        protected virtual void SetupServiceManager(IServiceManager serviceManager)
+        protected virtual IServiceProvider SetupServiceProvider(IServiceCollection services)
         {
-            serviceManager.RegisterDebugLoggerFactory();
-            serviceManager.RegisterHttpFactory();
+            var serviceProvider = services.BuildSlimServiceProvider();
+            if (serviceProvider is IServiceManager serviceManager)
+            {
+                serviceManager.RegisterDebugLoggerFactory();
+                serviceManager.RegisterHttpFactory();
+                serviceManager.RegisterResolver(new LoggerResolver());
+            }
+
+            return serviceProvider;
         }
 
         /// <summary>
@@ -40,10 +49,10 @@ namespace System.Windows.Extensions
         /// </summary>
         protected abstract void ApplicationClosing();
         /// <summary>
-        /// Register services into the <see cref="IServiceProducer"/>.
+        /// Register services into the <see cref="IServiceCollection"/>.
         /// </summary>
-        /// <param name="serviceProducer"></param>
-        protected abstract void RegisterServices(IServiceProducer serviceProducer);
+        /// <param name="serviceCollection"></param>
+        protected abstract void RegisterServices(IServiceCollection services);
         /// <summary>
         /// Handle a caught exception.
         /// </summary>
@@ -54,17 +63,18 @@ namespace System.Windows.Extensions
         protected sealed override void OnStartup(StartupEventArgs e)
         {
             this.SetupExceptionHandling();
-            this.SetupServiceManager(this.ServiceManager);
-            this.RegisterServices(this.ServiceManager);
+            this.RegisterInternals();
+            this.RegisterServices(this.services);
+            this.ServiceProvider = this.SetupServiceProvider(this.services);
             this.SetupApplicationLifetime();
             this.LaunchWindow();
         }
         protected sealed override void OnExit(ExitEventArgs e)
         {
             base.OnExit(e);
-            foreach (var service in this.ServiceManager.GetServicesOfType<IApplicationLifetimeService>())
+            foreach (var service in this.ServiceProvider.GetServices<IApplicationLifetimeService>())
             {
-                service.OnClosing();
+                service?.OnClosing();
             }
 
             this.ApplicationClosing();
@@ -77,9 +87,9 @@ namespace System.Windows.Extensions
 
         private void LaunchWindow()
         {
-            var window = this.ServiceManager.GetService<T>();
+            var window = this.ServiceProvider.GetRequiredService<T>();
             this.ApplicationStarting();
-            foreach(var service in this.ServiceManager.GetServicesOfType<IApplicationLifetimeService>())
+            foreach(var service in this.ServiceProvider.GetServices<IApplicationLifetimeService>())
             {
                 service.OnStartup();
             }
@@ -88,9 +98,7 @@ namespace System.Windows.Extensions
         }
         private void RegisterInternals()
         {
-            this.ServiceManager.RegisterServiceManager();
-            this.ServiceManager.RegisterSingleton<T, T>();
-            this.ServiceManager.RegisterResolver(new LoggerResolver());
+            this.services.AddSingleton<T, T>();
         }
         private void SetupExceptionHandling()
         {

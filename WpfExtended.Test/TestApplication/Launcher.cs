@@ -1,9 +1,12 @@
-﻿using Microsoft.Extensions.Http.Logging;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Http.Logging;
 using Microsoft.Extensions.Logging;
 using Slim;
+using Slim.Integration.ServiceCollection;
 using System;
 using System.Extensions;
 using System.Http;
+using System.Logging;
 using System.Net.Http;
 using System.Windows.Extensions;
 using WpfExtended.Test;
@@ -21,8 +24,10 @@ namespace WpfExtended.Tests
             Instance.Run();
         }
 
-        protected override void SetupServiceManager(IServiceManager serviceManager)
+        protected override System.IServiceProvider SetupServiceProvider(IServiceCollection services)
         {
+            var serviceManager = new ServiceManager();
+            serviceManager.RegisterResolver(new LoggerResolver());
             serviceManager.RegisterDebugLoggerFactory();
             serviceManager.RegisterResolver(
                 new HttpClientResolver()
@@ -34,6 +39,9 @@ namespace WpfExtended.Tests
                     return handler;
                 }));
             serviceManager.RegisterOptionsManager();
+
+            var provider = services.BuildSlimServiceProvider(serviceManager);
+            return provider;
         }
 
         protected override void ApplicationClosing()
@@ -49,9 +57,9 @@ namespace WpfExtended.Tests
             return false;
         }
 
-        protected override void RegisterServices(IServiceProducer serviceProducer)
+        protected override void RegisterServices(IServiceCollection services)
         {
-            serviceProducer.RegisterSingleton<IDummyService, DummyService>();
+            services.AddSingleton<IDummyService, DummyService>();
         }
     }
 }
