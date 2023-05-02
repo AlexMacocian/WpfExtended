@@ -87,13 +87,13 @@ namespace System.Windows.Extensions
 
         private void LaunchWindow()
         {
-            var window = this.ServiceProvider.GetRequiredService<T>();
             this.ApplicationStarting();
             foreach(var service in this.ServiceProvider.GetServices<IApplicationLifetimeService>())
             {
                 service.OnStartup();
             }
 
+            var window = this.ServiceProvider.GetRequiredService<T>();
             window.Show();
         }
         private void RegisterInternals()
