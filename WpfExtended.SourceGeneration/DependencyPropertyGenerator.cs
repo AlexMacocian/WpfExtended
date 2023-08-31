@@ -10,7 +10,7 @@ using System.Extensions.Templates;
 
 namespace System.Extensions
 {
-    [Generator]
+    [Generator(LanguageNames.CSharp)]
     public class DependencyPropertyGenerator : ISourceGenerator
     {
         private const string AttributeNamespace = "System.Windows.Extensions";
@@ -81,7 +81,6 @@ namespace System.Extensions
             foreach (var group in fieldSymbols.GroupBy(f => f.ContainingType, SymbolEqualityComparer.IncludeNullability))
             {
                 var classSource = ProcessClass((INamedTypeSymbol)group.Key, attributeSymbol, group.ToList(), context);
-                context.ReportDiagnostic(Diagnostics.GeneratedSymbolsForClassDiagnostic(group.Key.Name));
                 context.AddSource($"{group.Key.Name}.DependencyPropertyGenerator.g.cs", classSource);
             }
         }
