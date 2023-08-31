@@ -7,7 +7,7 @@
     <Authors>Alexandru Macocian</Authors>
     <Description>Source generator library.</Description>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
-    <Version>0.1.1</Version>
+    <Version>0.1.2</Version>
     <LangVersion>latest</LangVersion>
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
   </PropertyGroup>
