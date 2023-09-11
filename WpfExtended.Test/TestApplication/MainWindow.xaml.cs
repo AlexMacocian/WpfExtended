@@ -64,8 +64,21 @@ namespace WpfExtended.Test
                     BorderBrush = Brushes.LightGray,
                     BorderThickness = new Thickness(1)
                 };
+
+                image.MouseLeftButtonDown += Image_MouseLeftButtonDown;
                 this.WrapPanel.Children.Add(image);
             }
+        }
+
+        private void Image_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            if (sender is not CaptionedImage captionedImage)
+            {
+                return;
+            }
+
+            var effect = captionedImage.ImageEffect;
+            this.PropertyList.DataContext = effect;
         }
     }
 }
