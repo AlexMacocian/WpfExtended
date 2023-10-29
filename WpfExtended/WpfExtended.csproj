@@ -6,7 +6,7 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageLicenseFile>License.txt</PackageLicenseFile>
-    <Version>0.7.3</Version>
+    <Version>0.7.4</Version>
     <LangVersion>latest</LangVersion>
     <Description>Extension library for Windows Presentation Platform.
 
@@ -43,6 +43,7 @@ http://www.java2s.com/Open-Source/CSharp_Free_Code/Windows_Presentation_Foundati
     <None Remove="Effects\Ripple\Ripple.ps" />
     <None Remove="Effects\Sharpen\Sharpen.ps" />
     <None Remove="Effects\SmoothMagnify\SmoothMagnify.ps" />
+    <None Remove="Effects\Snowfall\Snowfall.ps" />
     <None Remove="Effects\Swirl\Swirl.ps" />
     <None Remove="Effects\ToneMapping\ToneMapping.ps" />
     <None Remove="Effects\ToonShader\ToonShader.ps" />
@@ -51,6 +52,7 @@ http://www.java2s.com/Open-Source/CSharp_Free_Code/Windows_Presentation_Foundati
 
   <ItemGroup>
     <EmbeddedResource Include="Effects\BandedSwirl\BandedSwirl.ps" />
+    <EmbeddedResource Include="Effects\Snowfall\Snowfall.ps" />
     <EmbeddedResource Include="Effects\Bloom\Bloom.ps" />
     <EmbeddedResource Include="Effects\DepthBlur\DepthBlur.ps" />
     <EmbeddedResource Include="Effects\Impasto\Impasto.ps" />
