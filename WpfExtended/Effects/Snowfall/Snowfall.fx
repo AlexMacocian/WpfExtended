@@ -113,7 +113,7 @@ float4 main(float2 uv : TEXCOORD) : COLOR
     float2 tiledUV = uv * FlakeSize;
 
     // Get the random value to decide where to place a snowflake
-    float randVal = snoise(floor(tiledUV));
+    float randVal = (snoise(floor(tiledUV)) + 1) / 2;
 
     // Generate a dynamic circular snowflake if within the threshold
     if (randVal > Threshold)
