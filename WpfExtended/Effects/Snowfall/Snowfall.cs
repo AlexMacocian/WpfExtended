@@ -18,14 +18,12 @@ namespace System.Windows.Media.Extensions.Effects
             DependencyProperty.Register("Speed", typeof(double), typeof(Snowfall), new UIPropertyMetadata(0.25, PixelShaderConstantCallback(0)));
         public static readonly DependencyProperty WindStrengthProperty =
             DependencyProperty.Register("WindStrength", typeof(double), typeof(Snowfall), new UIPropertyMetadata(0.2, PixelShaderConstantCallback(1)));
-        public static readonly DependencyProperty WindDirectionProperty =
-            DependencyProperty.Register("WindDirection", typeof(double), typeof(Snowfall), new UIPropertyMetadata(-1.0, PixelShaderConstantCallback(2)));
         public static readonly DependencyProperty FlakeSizeProperty =
-            DependencyProperty.Register("FlakeSize", typeof(double), typeof(Snowfall), new UIPropertyMetadata(300.0, PixelShaderConstantCallback(3)));
+            DependencyProperty.Register("FlakeSize", typeof(double), typeof(Snowfall), new UIPropertyMetadata(300.0, PixelShaderConstantCallback(2)));
         public static readonly DependencyProperty TimeProperty =
-            DependencyProperty.Register("Time", typeof(double), typeof(Snowfall), new UIPropertyMetadata(0.0, PixelShaderConstantCallback(4)));
+            DependencyProperty.Register("Time", typeof(double), typeof(Snowfall), new UIPropertyMetadata(0.0, PixelShaderConstantCallback(3)));
         public static readonly DependencyProperty ThresholdProperty =
-            DependencyProperty.Register("Threshold", typeof(double), typeof(Snowfall), new UIPropertyMetadata(0.77, PixelShaderConstantCallback(5)));
+            DependencyProperty.Register("Threshold", typeof(double), typeof(Snowfall), new UIPropertyMetadata(0.77, PixelShaderConstantCallback(4)));
 
         private readonly static PixelShader pixelShader = new();
 
@@ -43,7 +41,6 @@ namespace System.Windows.Media.Extensions.Effects
             UpdateShaderValue(InputProperty);
             UpdateShaderValue(SpeedProperty);
             UpdateShaderValue(WindStrengthProperty);
-            UpdateShaderValue(WindDirectionProperty);
             UpdateShaderValue(FlakeSizeProperty);
             UpdateShaderValue(TimeProperty);
             UpdateShaderValue(ThresholdProperty);
@@ -64,11 +61,6 @@ namespace System.Windows.Media.Extensions.Effects
         {
             get { return (double)GetValue(WindStrengthProperty); }
             set { SetValue(WindStrengthProperty, value); }
-        }
-        public double WindDirection
-        {
-            get { return (double)GetValue(WindDirectionProperty); }
-            set { SetValue(WindDirectionProperty, value); }
         }
         public double FlakeSize
         {

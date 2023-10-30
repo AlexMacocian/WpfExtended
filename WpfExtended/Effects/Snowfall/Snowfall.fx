@@ -10,10 +10,9 @@
 
 float Speed : register(C0);
 float WindStrength : register(C1);
-float WindDirection : register(C2);
-float FlakeSize : register(C3);
-float Time : register(C4);
-float Threshold : register(C5);
+float FlakeSize : register(C2);
+float Time : register(C3);
+float Threshold : register(C4);
 
 //--------------------------------------------------------------------------------------
 // Sampler Inputs (Brushes, including ImplicitInput)
@@ -107,7 +106,7 @@ float4 main(float2 uv : TEXCOORD) : COLOR
     // Calculate a parallax offset based on depth. Here, we just use the Y coordinate
     float depth = uv.y;
     uv.y -= Time * Speed;
-    uv.x += WindStrength * Time * WindDirection;
+    uv.x += WindStrength * Time;
 
     // Tiling the UV coordinates to generate multiple snowflakes
     float2 tiledUV = uv * FlakeSize;
