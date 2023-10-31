@@ -1,9 +1,3 @@
-//--------------------------------------------------------------------------------------
-// 
-// WPF ShaderEffect HLSL -- BloomEffect
-//
-//--------------------------------------------------------------------------------------
-
 //-----------------------------------------------------------------------------------------
 // Shader constant register mappings (scalars - float, double, Point, Color, Point3D, etc.)
 //-----------------------------------------------------------------------------------------
@@ -20,79 +14,115 @@ float Threshold : register(C4);
 
 sampler2D implicitInputSampler : register(S0);
 
-// 
-// Description : Array and textureless GLSL 2D simplex noise function.
-//      Author : Ian McEwan, Ashima Arts.
-//  Maintainer : ijm
-//     Lastmod : 20110822 (ijm)
-//     License : Copyright (C) 2011 Ashima Arts. All rights reserved.
-//               Distributed under the MIT License. See LICENSE file.
-//               https://github.com/ashima/webgl-noise
-// simpled by guowei
-// https://github.com/guoweish/glsl-noise-simplex
+//--------------------------------------------------------------------------------------
+// https://github.com/keijiro/NoiseShader/tree/master/Packages/jp.keijiro.noiseshader/Shader
+//--------------------------------------------------------------------------------------
 
-float3 mod289(float3 x)
+float wglnoise_mod(float x, float y)
 {
-    return x - floor(x * (1.0 / 289.0)) * 289.0;
+    return x - y * floor(x / y);
 }
 
-float2 mod289(float2 x)
+float2 wglnoise_mod(float2 x, float2 y)
 {
-    return x - floor(x * (1.0 / 289.0)) * 289.0;
+    return x - y * floor(x / y);
 }
 
-float3 permute(float3 x)
+float3 wglnoise_mod(float3 x, float3 y)
 {
-    return mod289(((x * 34.0) + 1.0) * x);
+    return x - y * floor(x / y);
 }
 
-float snoise(float2 v)
+float4 wglnoise_mod(float4 x, float4 y)
 {
-    const float4 C = float4(0.211324865405187, // (3.0-sqrt(3.0))/6.0
-                      0.366025403784439, // 0.5*(sqrt(3.0)-1.0)
-                     -0.577350269189626, // -1.0 + 2.0 * C.x
-                      0.024390243902439); // 1.0 / 41.0
-// First corner
-    float2 i = floor(v + dot(v, C.yy));
-    float2 x0 = v - i + dot(i, C.xx);
+    return x - y * floor(x / y);
+}
 
-// Other corners
-    float2 i1;
-  //i1.x = step( x0.y, x0.x ); // x0.x > x0.y ? 1.0 : 0.0
-  //i1.y = 1.0 - i1.x;
-    i1 = (x0.x > x0.y) ? float2(1.0, 0.0) : float2(0.0, 1.0);
-  // x0 = x0 - 0.0 + 0.0 * C.xx ;
-  // x1 = x0 - i1 + 1.0 * C.xx ;
-  // x2 = x0 - 1.0 + 2.0 * C.xx ;
-    float4 x12 = x0.xyxy + C.xxzz;
-    x12.xy -= i1;
+float2 wglnoise_fade(float2 t)
+{
+    return t * t * t * (t * (t * 6 - 15) + 10);
+}
 
-// Permutations
-    i = mod289(i); // Avoid truncation effects in permutation
-    float3 p = permute(permute(i.y + float3(0.0, i1.y, 1.0))
-    + i.x + float3(0.0, i1.x, 1.0));
+float3 wglnoise_fade(float3 t)
+{
+    return t * t * t * (t * (t * 6 - 15) + 10);
+}
 
-    float3 m = max(0.5 - float3(dot(x0, x0), dot(x12.xy, x12.xy), dot(x12.zw, x12.zw)), 0.0);
-    m = m * m;
-    m = m * m;
+float wglnoise_mod289(float x)
+{
+    return x - floor(x / 289) * 289;
+}
 
-// Gradients: 41 points uniformly over a line, mapped onto a diamond.
-// The ring size 17*17 = 289 is close to a multiple of 41 (41*7 = 287)
+float2 wglnoise_mod289(float2 x)
+{
+    return x - floor(x / 289) * 289;
+}
 
-    float3 x = 2.0 * frac(p * C.www) - 1.0;
-    float3 h = abs(x) - 0.5;
-    float3 ox = floor(x + 0.5);
-    float3 a0 = x - ox;
+float3 wglnoise_mod289(float3 x)
+{
+    return x - floor(x / 289) * 289;
+}
 
-// Normalise gradients implicitly by scaling m
-// Approximation of: m *= inversesqrt( a0*a0 + h*h );
-    m *= 1.79284291400159 - 0.85373472095314 * (a0 * a0 + h * h);
+float4 wglnoise_mod289(float4 x)
+{
+    return x - floor(x / 289) * 289;
+}
 
-// Compute final noise value at P
-    float3 g;
-    g.x = a0.x * x0.x + h.x * x0.y;
-    g.yz = a0.yz * x12.xz + h.yz * x12.yw;
-    return 130.0 * dot(m, g);
+float3 wglnoise_permute(float3 x)
+{
+    return wglnoise_mod289((x * 34 + 1) * x);
+}
+
+float4 wglnoise_permute(float4 x)
+{
+    return wglnoise_mod289((x * 34 + 1) * x);
+}
+
+float3 SimplexNoiseGrad(float2 v)
+{
+    const float C1 = (3 - sqrt(3)) / 6;
+    const float C2 = (sqrt(3) - 1) / 2;
+
+    // First corner
+    float2 i = floor(v + dot(v, C2));
+    float2 x0 = v - i + dot(i, C1);
+
+    // Other corners
+    float2 i1 = x0.x > x0.y ? float2(1, 0) : float2(0, 1);
+    float2 x1 = x0 + C1 - i1;
+    float2 x2 = x0 + C1 * 2 - 1;
+
+    // Permutations
+    i = wglnoise_mod289(i); // Avoid truncation effects in permutation
+    float3 p = wglnoise_permute(i.y + float3(0, i1.y, 1));
+    p = wglnoise_permute(p + i.x + float3(0, i1.x, 1));
+
+    // Gradients: 41 points uniformly over a unit circle.
+    // The ring size 17*17 = 289 is close to a multiple of 41 (41*7 = 287)
+    float3 phi = p / 41 * 3.14159265359 * 2;
+    float2 g0 = float2(cos(phi.x), sin(phi.x));
+    float2 g1 = float2(cos(phi.y), sin(phi.y));
+    float2 g2 = float2(cos(phi.z), sin(phi.z));
+
+    // Compute noise and gradient at P
+    float3 m = float3(dot(x0, x0), dot(x1, x1), dot(x2, x2));
+    float3 px = float3(dot(g0, x0), dot(g1, x1), dot(g2, x2));
+
+    m = max(0.5 - m, 0);
+    float3 m3 = m * m * m;
+    float3 m4 = m * m3;
+
+    float3 temp = -8 * m3 * px;
+    float2 grad = m4.x * g0 + temp.x * x0 +
+                  m4.y * g1 + temp.y * x1 +
+                  m4.z * g2 + temp.z * x2;
+
+    return 99.2 * float3(grad, dot(m4, px));
+}
+
+float SimplexNoise(float2 v)
+{
+    return SimplexNoiseGrad(v).z;
 }
 
 //--------------------------------------------------------------------------------------
@@ -104,15 +134,12 @@ float4 main(float2 uv : TEXCOORD) : COLOR
     float4 color = tex2D(implicitInputSampler, uv);
 
     // Calculate a parallax offset based on depth. Here, we just use the Y coordinate
-    float depth = uv.y;
     uv.y -= Time * Speed;
     uv.x += WindStrength * Time;
 
-    // Tiling the UV coordinates to generate multiple snowflakes
-    float2 tiledUV = uv * FlakeSize;
-
     // Get the random value to decide where to place a snowflake
-    float randVal = (snoise(floor(tiledUV)) + 1) / 2;
+    float randVal = (SimplexNoise(uv * FlakeSize) + 1) / 2;
+    //float randVal = (snoise(floor(tiledUV)) + 1) / 2;
 
     // Generate a dynamic circular snowflake if within the threshold
     if (randVal > Threshold)
