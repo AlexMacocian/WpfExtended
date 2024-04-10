@@ -7,6 +7,9 @@ namespace System.Extensions
     {
         public const string DependencyPropertyGenerator_NoAttributeFound = "DGD 0001";
         public const string DependencyPropertyGenerator_ClassMustBeTopLevel = "DGD 1001";
+        public const string DependencyPropertyGenerator_ClassMustBePartial = "DGD 1002";
+        public const string DependencyPropertyGenerator_ClassMustBeInNamespace = "DGD 1003";
+        public const string DependencyPropertyGenerator_ClassMustImplementINotifyPropertyChanged = "DGD 1004";
 
         public static Diagnostic MissingAttributeDiagnostic(string attributeName, string attributeNamespace) => Diagnostic.Create(
                     new DiagnosticDescriptor(
@@ -33,5 +36,44 @@ namespace System.Extensions
                         null),
                     Location.Create(syntaxTree, textSpan),
                     className, containingSymbol);
+
+        public static Diagnostic ClassNotPartial(string className) => Diagnostic.Create(
+                    new DiagnosticDescriptor(
+                        DependencyPropertyGenerator_ClassMustBePartial,
+                        $"{className} is not partial",
+                        "Class {0} must be marked as partial in order for the generator to work",
+                        "WpfExtended.SourceGeneration",
+                        DiagnosticSeverity.Error,
+                        true,
+                        null,
+                        null),
+                    Location.None,
+                    className);
+
+        public static Diagnostic ClassNotInNamespace(string className) => Diagnostic.Create(
+                    new DiagnosticDescriptor(
+                        DependencyPropertyGenerator_ClassMustBeInNamespace,
+                        $"{className} is not defined in a namespace",
+                        "Class {0} must be defined inside a namespace for the generator to work",
+                        "WpfExtended.SourceGeneration",
+                        DiagnosticSeverity.Error,
+                        true,
+                        null,
+                        null),
+                    Location.None,
+                    className);
+
+        public static Diagnostic ClassDoesNotImplementINotifyPropertyChanged(string className) => Diagnostic.Create(
+                    new DiagnosticDescriptor(
+                        DependencyPropertyGenerator_ClassMustImplementINotifyPropertyChanged,
+                        $"{className} must implement INotifyPropertyChanged",
+                        "Class {0} must implement INotifyPropertyChanged for the generator to work",
+                        "WpfExtended.SourceGeneration",
+                        DiagnosticSeverity.Error,
+                        true,
+                        null,
+                        null),
+                    Location.None,
+                    className);
     }
 }
