@@ -1,14 +1,9 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.CodeAnalysis.Text;
 using Sybil;
-using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.ComponentModel;
-using System.Diagnostics;
 using System.Linq;
-using System.Text;
 
 namespace System.Extensions;
 #nullable enable
@@ -32,8 +27,11 @@ public class DependencyPropertyGenerator : IIncrementalGenerator
     {
         context.RegisterPostInitializationOutput(context =>
         {
-            var attributeNamespaceBuilder = SyntaxBuilder.CreateNamespace(AttributeNamespace)
-                .WithUsing("System.ComponentModel")
+            var compilationUnitBuilder = 
+            SyntaxBuilder.CreateCompilationUnit()
+            .WithUsing("System.ComponentModel")
+            .WithNamespace(
+                SyntaxBuilder.CreateNamespace(AttributeNamespace)
                     .WithClass(SyntaxBuilder.CreateClass(AttributeName)
                         .WithModifier(Public)
                     .WithConstructor(SyntaxBuilder.CreateConstructor(AttributeName)
@@ -46,9 +44,9 @@ public class DependencyPropertyGenerator : IIncrementalGenerator
                     .WithProperty(SyntaxBuilder.CreateProperty("object", InitialValue)
                         .WithModifier(Public)
                         .WithAccessor(SyntaxBuilder.CreateGetter())
-                        .WithAccessor(SyntaxBuilder.CreateSetter())));
-            var attributeSyntax = attributeNamespaceBuilder.Build();
-            var source = attributeSyntax.ToFullString();
+                        .WithAccessor(SyntaxBuilder.CreateSetter()))));
+            var compilationUnitSyntax = compilationUnitBuilder.Build();
+            var source = compilationUnitSyntax.ToFullString();
             context.AddSource($"{AttributeName}.g", source);
         });
 
@@ -74,13 +72,20 @@ public class DependencyPropertyGenerator : IIncrementalGenerator
         return default;
     }
 
-    private static void Execute(Compilation _, ImmutableArray<ClassDeclarationSyntax?> classes, SourceProductionContext sourceProductionContext)
+    private static void Execute(Compilation compilation, ImmutableArray<ClassDeclarationSyntax?> classes, SourceProductionContext sourceProductionContext)
     {
         if (classes.IsDefaultOrEmpty)
         {
             return;
         }
 
+        var maybeLanguageVersion = (compilation.SyntaxTrees.FirstOrDefault()?.Options as CSharpParseOptions)?.LanguageVersion;
+        if (!maybeLanguageVersion.HasValue)
+        {
+            return;
+        }
+
+        var languageVersion = maybeLanguageVersion.Value;
         var distinctClasses = classes.Distinct();
         foreach (var c in distinctClasses.OfType<ClassDeclarationSyntax>())
         {
@@ -100,13 +105,17 @@ public class DependencyPropertyGenerator : IIncrementalGenerator
 
             var generatedClassBuilder = SyntaxBuilder.CreateClass(className)
                 .WithModifiers(string.Join(" ", c.Modifiers.Select(m => m.ToFullString())));
-            var generatedNamespaceBuilder = SyntaxBuilder.CreateNamespace(originalNamespaceSyntax.Name.ToFullString())
-                .WithClass(generatedClassBuilder);
+            var generatedCompilationUnit = SyntaxBuilder.CreateCompilationUnit()
+                .WithNamespace(
+                    (languageVersion >= LanguageVersion.CSharp10 ?
+                    SyntaxBuilder.CreateFileScopedNamespace(originalNamespaceSyntax.Name.ToFullString()) :
+                    SyntaxBuilder.CreateNamespace(originalNamespaceSyntax.Name.ToFullString()))
+                    .WithClass(generatedClassBuilder));
 
             if (originalNamespaceSyntax.Usings.OfType<UsingDirectiveSyntax>().Any(u => u.Name?.ToString() == DependencyPropertyNamespace) is false &&
                 (originalNamespaceSyntax.Parent as CompilationUnitSyntax)?.Usings.Any(u => u.Name?.ToString() == DependencyPropertyNamespace) is false)
             {
-                generatedNamespaceBuilder.WithUsing(DependencyPropertyNamespace);
+                generatedCompilationUnit.WithUsing(DependencyPropertyNamespace);
             }
 
             foreach (var field in c.DescendantNodes().OfType<FieldDeclarationSyntax>())
@@ -144,20 +153,20 @@ public class DependencyPropertyGenerator : IIncrementalGenerator
                     .WithField(dependencyPropertyFieldBuilder);
             }
 
-            var generatedNamespace = generatedNamespaceBuilder.Build();
+            var generatedSyntax = generatedCompilationUnit.Build();
             if (originalNamespaceSyntax.Usings.Count != 0)
             {
-                generatedNamespace = generatedNamespace.AddUsings([.. originalNamespaceSyntax.Usings]);
+                generatedSyntax = generatedSyntax.AddUsings([.. originalNamespaceSyntax.Usings]);
             }
             else
             {
                 if (originalNamespaceSyntax.Parent is CompilationUnitSyntax compilationUnit)
                 {
-                    generatedNamespace = generatedNamespace.AddUsings([.. compilationUnit.Usings]);
+                    generatedSyntax = generatedSyntax.AddUsings([.. compilationUnit.Usings]);
                 }
             }
 
-            var fileSource = generatedNamespace.ToFullString();
+            var fileSource = generatedSyntax.ToFullString();
             sourceProductionContext.AddSource($"{className}.g", fileSource);
         }
     }
