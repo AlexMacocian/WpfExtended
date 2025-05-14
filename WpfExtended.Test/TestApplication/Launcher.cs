@@ -7,6 +7,7 @@ using System;
 using System.Extensions;
 using System.Logging;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Windows.Extensions;
 using WpfExtended.Test;
 using WpfExtended.Tests.Services;
@@ -47,9 +48,7 @@ namespace WpfExtended.Tests
         {
         }
 
-        protected override void ApplicationStarting()
-        {
-        }
+        protected override ValueTask ApplicationStarting() => ValueTask.CompletedTask;
 
         protected override bool HandleException(Exception e)
         {

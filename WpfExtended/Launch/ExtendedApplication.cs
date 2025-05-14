@@ -44,7 +44,7 @@ namespace System.Windows.Extensions
         /// <summary>
         /// Called right before the window is shown.
         /// </summary>
-        protected abstract void ApplicationStarting();
+        protected abstract ValueTask ApplicationStarting();
         /// <summary>
         /// Called right before the application is closing.
         /// </summary>
@@ -86,9 +86,9 @@ namespace System.Windows.Extensions
             this.ApplicationClosing();
         }
 
-        private void LaunchWindow()
+        private async void LaunchWindow()
         {
-            this.ApplicationStarting();
+            await this.ApplicationStarting().ConfigureAwait(true);
             foreach(var service in this.ServiceProvider.GetServices<IApplicationLifetimeService>())
             {
                 service.OnStartup();
