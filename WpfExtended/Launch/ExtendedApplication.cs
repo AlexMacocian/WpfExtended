@@ -19,6 +19,7 @@ namespace System.Windows.Extensions
         private readonly ServiceCollection services = new();
 
         protected IServiceProvider ServiceProvider { get; private set; }
+        protected virtual bool ShowWindowOnStartup { get; set; } = true;
 
         public ExtendedApplication()
         {
@@ -93,8 +94,11 @@ namespace System.Windows.Extensions
                 service.OnStartup();
             }
 
-            var window = this.ServiceProvider.GetRequiredService<T>();
-            window.Show();
+            if (this.ShowWindowOnStartup)
+            {
+                var window = this.ServiceProvider.GetRequiredService<T>();
+                window.Show();
+            }
         }
         private void RegisterInternals()
         {

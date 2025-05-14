@@ -6,7 +6,7 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageLicenseFile>License.txt</PackageLicenseFile>
-    <Version>0.7.7</Version>
+    <Version>0.7.8</Version>
     <LangVersion>latest</LangVersion>
     <Description>Extension library for Windows Presentation Platform.
 
@@ -92,12 +92,12 @@ http://www.java2s.com/Open-Source/CSharp_Free_Code/Windows_Presentation_Foundati
 
   <ItemGroup>
     <PackageReference Include="Microsoft.CorrelationVector" Version="1.0.42" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.1" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.5" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.5" />
     <PackageReference Include="Slim" Version="1.9.2" />
     <PackageReference Include="Slim.Integration" Version="1.0.4" />
-    <PackageReference Include="SystemExtensions.NetStandard" Version="1.5.0" />
-    <PackageReference Include="SystemExtensions.NetStandard.DependencyInjection" Version="1.2.3" />
+    <PackageReference Include="SystemExtensions.NetStandard" Version="1.6.11" />
+    <PackageReference Include="SystemExtensions.NetStandard.DependencyInjection" Version="1.6.9" />
   </ItemGroup>
   <Import Project="ShaderCompiler.target" />
 </Project>
