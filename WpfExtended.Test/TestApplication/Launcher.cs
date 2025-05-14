@@ -5,7 +5,6 @@ using Slim;
 using Slim.Integration.ServiceCollection;
 using System;
 using System.Extensions;
-using System.Http;
 using System.Logging;
 using System.Net.Http;
 using System.Windows.Extensions;
