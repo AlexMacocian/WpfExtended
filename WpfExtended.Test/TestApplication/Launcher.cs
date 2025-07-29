@@ -29,17 +29,9 @@ namespace WpfExtended.Tests
             var serviceManager = new ServiceManager();
             serviceManager.RegisterResolver(new LoggerResolver());
             serviceManager.RegisterDebugLoggerFactory();
-            serviceManager.RegisterResolver(
-                new HttpClientResolver()
-                .WithHttpMessageHandlerFactory((serviceProvider, categoryType) =>
-                {
-                    var loggerType = typeof(ILogger<>).MakeGenericType(categoryType);
-                    var logger = serviceProvider.GetService(loggerType).As<ILogger>();
-                    var handler = new LoggingHttpMessageHandler(logger) { InnerHandler = new HttpClientHandler() };
-                    return handler;
-                }));
             serviceManager.RegisterOptionsManager();
-
+            services.RegisterHttpClient<MainWindow>()
+                .Build();
             var provider = services.BuildSlimServiceProvider(serviceManager);
             return provider;
         }
