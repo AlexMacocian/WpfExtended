@@ -6,7 +6,7 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageLicenseFile>License.txt</PackageLicenseFile>
-    <Version>0.7.12</Version>
+    <Version>0.7.13</Version>
     <LangVersion>latest</LangVersion>
     <Description>Extension library for Windows Presentation Platform.
 
@@ -94,7 +94,7 @@ http://www.java2s.com/Open-Source/CSharp_Free_Code/Windows_Presentation_Foundati
     <PackageReference Include="Microsoft.CorrelationVector" Version="1.0.42" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.7" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.7" />
-    <PackageReference Include="Slim" Version="1.11.0" />
+    <PackageReference Include="Slim" Version="1.11.1" />
     <PackageReference Include="Slim.Integration" Version="1.0.4" />
     <PackageReference Include="System.Net.Http" Version="4.3.4" />
     <PackageReference Include="System.Text.RegularExpressions" Version="4.3.1" />
