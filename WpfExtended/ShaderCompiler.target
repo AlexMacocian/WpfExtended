@@ -2,16 +2,29 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <ShaderDir>$(ProjectDir)</ShaderDir>
-    <Fxc>$(SolutionDir)\tools\fxc.exe</Fxc>
+    <!-- Use MSBuildProjectDirectory to get a more reliable path to the solution root -->
+    <SolutionRootDir Condition="'$(SolutionDir)' == '' OR '$(SolutionDir)' == '*Undefined*'">$(MSBuildProjectDirectory)\..</SolutionRootDir>
+    <SolutionRootDir Condition="'$(SolutionDir)' != '' AND '$(SolutionDir)' != '*Undefined*'">$(SolutionDir)</SolutionRootDir>
+    <Fxc>$(SolutionRootDir)\tools\fxc.exe</Fxc>
     <FxcArgs>/O3 /T ps_3_0 /nologo /Fo</FxcArgs>
   </PropertyGroup>
 
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-    <Message Importance="High" Text="Compiling shader effect files..." />
-    <ItemGroup>
+    <!-- Check if fxc.exe exists before attempting compilation -->
+    <PropertyGroup>
+      <FxcExists Condition="Exists('$(Fxc)')">true</FxcExists>
+    </PropertyGroup>
+    
+    <Message Importance="High" Text="Looking for fxc.exe at: $(Fxc)" />
+    <Message Condition="'$(FxcExists)' == 'true'" Importance="High" Text="Compiling shader effect files..." />
+    <Message Condition="'$(FxcExists)' != 'true'" Importance="High" Text="fxc.exe not found at $(Fxc), using pre-compiled shaders..." />
+    
+    <ItemGroup Condition="'$(FxcExists)' == 'true'">
       <_ShaderFiles Include="$(ShaderDir)**\*.fx" />
     </ItemGroup>
-    <Exec Command="&quot;$(Fxc)&quot; $(FxcArgs) &quot;$([System.IO.Path]::ChangeExtension('%(_ShaderFiles.Identity)', '.ps'))&quot; &quot;%(_ShaderFiles.Identity)&quot;" />
+    
+    <Exec Condition="'$(FxcExists)' == 'true'" Command="&quot;$(Fxc)&quot; $(FxcArgs) &quot;$([System.IO.Path]::ChangeExtension('%(_ShaderFiles.Identity)', '.ps'))&quot; &quot;%(_ShaderFiles.Identity)&quot;" />
+    
     <ItemGroup>
       <Resource Include="$(ShaderDir)**\*.ps" />
     </ItemGroup>
