@@ -18,8 +18,6 @@ jobs:
     env:
       Configuration: Release
       Solution_Path: WpfExtended.sln
-      Test_Project_Path: Slim.Tests\Slim.Tests.csproj
-      Source_Project_Path: Slim\Slim.csproj
       Actions_Allow_Unsecure_Commands: true
 
     steps:
@@ -52,6 +50,12 @@ jobs:
 
     - name: Package WpfExtended.SourceGeneration
       run: dotnet pack -c Release -o . WpfExtended.SourceGeneration\WpfExtended.SourceGeneration.csproj
+
+    - name: Build WpfExtended.Blazor project
+      run: dotnet build WpfExtended.Blazor -c $env:Configuration
+
+    - name: Package WpfExtended.Blazor
+      run: dotnet pack -c Release -o . WpfExtended.Blazor\WpfExtended.Blazor.csproj
 
     - name: Publish
       run: dotnet nuget push *.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
