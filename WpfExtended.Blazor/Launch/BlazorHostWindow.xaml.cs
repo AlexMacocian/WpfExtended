@@ -33,8 +33,8 @@ public partial class BlazorHostWindow : Window
         set
         {
             this.SetValue(ShowTitleBarProperty, value);
-            this.WindowStyle = value ? WindowStyle.SingleBorderWindow : WindowStyle.None;
-            this.ResizeMode = value ? ResizeMode.CanResize : ResizeMode.NoResize;
+            this.WindowChrome.CaptionHeight = value ? SystemParameters.CaptionHeight : 0;
+            this.BlazorWebView.Margin = value ? new Thickness(0, SystemParameters.CaptionHeight, 0, 0) : new Thickness(0);
         }
     }
 
@@ -63,5 +63,20 @@ public partial class BlazorHostWindow : Window
         this.ShowTitleBar = blazorLaunchProperties.ShowTitleBar;
         this.HostPage = blazorLaunchProperties.HostPage;
         this.AppType = blazorLaunchProperties.AppType;
+    }
+
+    protected override void OnStateChanged(EventArgs e)
+    {
+        base.OnStateChanged(e);
+        var cornerRadius = Math.Max(
+            Math.Max(SystemParameters.WindowCornerRadius.TopLeft, SystemParameters.WindowCornerRadius.TopRight),
+            Math.Max(SystemParameters.WindowCornerRadius.BottomLeft, SystemParameters.WindowCornerRadius.BottomRight));
+        this.WindowChrome.ResizeBorderThickness = this.WindowState is WindowState.Maximized ? new Thickness(0) : new Thickness(cornerRadius);
+        this.WindowChrome.CornerRadius = this.WindowState is WindowState.Maximized ? new CornerRadius(0) : SystemParameters.WindowCornerRadius;
+        this.BlazorWebView.Margin = this.WindowState is WindowState.Maximized
+            ? this.ShowTitleBar 
+                ? new Thickness(cornerRadius, SystemParameters.CaptionHeight + cornerRadius, cornerRadius, cornerRadius)
+                : new Thickness(cornerRadius)
+            : new Thickness(0, this.ShowTitleBar ? SystemParameters.CaptionHeight : 0, 0, 0);
     }
 }
