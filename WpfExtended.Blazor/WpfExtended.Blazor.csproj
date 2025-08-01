@@ -4,7 +4,7 @@
     <TargetFrameworks>net9.0-windows</TargetFrameworks>
     <UseWPF>true</UseWPF>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>0.7.14</Version>
+    <Version>0.7.15</Version>
     <LangVersion>latest</LangVersion>
     <Description>
       Extension library for Blazor Hybrid running on Windows Presentation Platform.
@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\WpfExtended.Shared\WpfExtended.Shared.csproj" />
+    <ProjectReference Include="..\WpfExtended\WpfExtended.csproj" />
   </ItemGroup>
 
 </Project>
