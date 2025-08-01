@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\WpfExtended\WpfExtended.csproj" />
+    <ProjectReference Include="..\WpfExtended.Shared\WpfExtended.Shared.csproj" />
   </ItemGroup>
 
 </Project>
