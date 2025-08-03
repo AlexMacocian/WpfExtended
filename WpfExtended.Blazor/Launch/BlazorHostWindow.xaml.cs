@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Components.WebView;
+using Microsoft.AspNetCore.Components.WebView.Wpf;
+using Microsoft.Web.WebView2.Core;
+using System;
 using System.Windows;
 
 namespace WpfExtended.Blazor.Launch;
@@ -20,6 +23,14 @@ public partial class BlazorHostWindow : Window
 
     public static readonly DependencyProperty AppTypeProperty = DependencyProperty.Register(
         nameof(AppType), typeof(Type), typeof(BlazorHostWindow));
+
+    public event EventHandler<BlazorWebViewInitializedEventArgs>? BlazorWebViewInitialized;
+
+    public event EventHandler<BlazorWebViewInitializingEventArgs>? BlazorWebViewInitializing;
+
+    public event EventHandler<CoreWebView2InitializationCompletedEventArgs>? CoreWebView2InitializationCompleted;
+
+    public event EventHandler<CoreWebView2>? CoreWebView2Initialized;
 
     public IServiceProvider Services
     {
@@ -63,6 +74,8 @@ public partial class BlazorHostWindow : Window
         this.ShowTitleBar = blazorLaunchProperties.ShowTitleBar;
         this.HostPage = blazorLaunchProperties.HostPage;
         this.AppType = blazorLaunchProperties.AppType;
+        this.BlazorWebView.BlazorWebViewInitialized += this.BlazorWebView_BlazorWebViewInitialized;
+        this.BlazorWebView.BlazorWebViewInitializing += this.BlazorWebView_BlazorWebViewInitializing;
     }
 
     protected override void OnStateChanged(EventArgs e)
@@ -78,5 +91,28 @@ public partial class BlazorHostWindow : Window
                 ? new Thickness(cornerRadius, SystemParameters.CaptionHeight + cornerRadius, cornerRadius, cornerRadius)
                 : new Thickness(cornerRadius)
             : new Thickness(0, this.ShowTitleBar ? SystemParameters.CaptionHeight : 0, 0, 0);
+    }
+
+    private void BlazorWebView_BlazorWebViewInitialized(object? sender, BlazorWebViewInitializedEventArgs args)
+    {
+        this.BlazorWebView.WebView.CoreWebView2InitializationCompleted += this.CoreWebView2_InitializationCompleted;
+        this.BlazorWebViewInitialized?.Invoke(this, args);
+    }
+
+    private void BlazorWebView_BlazorWebViewInitializing(object? sender, BlazorWebViewInitializingEventArgs args)
+    {
+        this.BlazorWebViewInitializing?.Invoke(this, args);
+    }
+
+    private void CoreWebView2_InitializationCompleted(object? sender, CoreWebView2InitializationCompletedEventArgs e)
+    {
+        this.CoreWebView2InitializationCompleted?.Invoke(this, e);
+
+        if (!e.IsSuccess)
+        {
+            return;
+        }
+
+        this.CoreWebView2Initialized?.Invoke(this, this.BlazorWebView.WebView.CoreWebView2);
     }
 }

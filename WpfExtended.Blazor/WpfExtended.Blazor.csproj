@@ -4,7 +4,8 @@
     <TargetFrameworks>net9.0-windows</TargetFrameworks>
     <UseWPF>true</UseWPF>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>0.8.0</Version>
+    <Version>0.8.1</Version>
+    <Nullable>enable</Nullable>
     <LangVersion>latest</LangVersion>
     <Description>
       Extension library for Blazor Hybrid running on Windows Presentation Platform.
