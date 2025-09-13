@@ -2,7 +2,6 @@
   <Folder Name="/Solution Items/">
     <File Path=".github/workflows/cd.yaml" />
     <File Path=".github/workflows/ci.yaml" />
-    <File Path=".github/workflows/gitlab-mirror.yaml" />
   </Folder>
   <Project Path="WpfExtended.Blazor/WpfExtended.Blazor.csproj" />
   <Project Path="WpfExtended.SourceGeneration/WpfExtended.SourceGeneration.csproj" />

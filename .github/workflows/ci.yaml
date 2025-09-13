@@ -19,7 +19,7 @@ jobs:
     runs-on: windows-latest
 
     env:
-      Solution_Path: WpfExtended.sln
+      Solution_Path: WpfExtended.slnx
       Actions_Allow_Unsecure_Commands: true
       Test_Project_Path: WpfExtended.Test\WpfExtended.Tests.csproj
 
