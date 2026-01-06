@@ -95,7 +95,7 @@ public partial class BlazorHostWindow : Window
 
     private void BlazorWebView_BlazorWebViewInitialized(object? sender, BlazorWebViewInitializedEventArgs args)
     {
-        this.BlazorWebView.WebView.CoreWebView2InitializationCompleted += this.CoreWebView2_InitializationCompleted;
+        args.WebView.CoreWebView2InitializationCompleted += this.CoreWebView2_InitializationCompleted;
         this.BlazorWebViewInitialized?.Invoke(this, args);
     }
 
@@ -113,6 +113,9 @@ public partial class BlazorHostWindow : Window
             return;
         }
 
-        this.CoreWebView2Initialized?.Invoke(this, this.BlazorWebView.WebView.CoreWebView2);
+        if (sender is Microsoft.Web.WebView2.Wpf.WebView2 webView2)
+        {
+            this.CoreWebView2Initialized?.Invoke(this, webView2.CoreWebView2);
+        }
     }
 }
